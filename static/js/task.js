@@ -1,6 +1,11 @@
 $(document).ready(function(){
-        var CSlist = ["walking", "hearing"];
-	var USlist = [["useful",
+	
+	var TIME_INT = 1200;
+	var US_SIZE = 16;
+	var CS_SIZE = 48;
+	
+	var TARGET = "looking"; // size? in pair? by itself?
+	var US_POS_LIST = ["useful",
 	       "calming",
 	       "desirable",
 		"appealing",
@@ -15,8 +20,8 @@ $(document).ready(function(){
 		"USp3",
 		"USp4",
 		"USp5",
-		"USp6"],
-	      ["table",
+		"USp6"];
+	var US_NEUT_LIST = ["table",
 	       "magazine",
 	       "lamp",
 	       "room",
@@ -31,8 +36,8 @@ $(document).ready(function(){
 	       "USn3",
 	       "USn4",
 	       "USn5",
-	       "USn6"]];
-	var NSlist = [["concrete",
+	       "USn6"];
+	var NS_LIST = ["concrete",
 		       "metal",
 		       "desk",
 		       "weather",
@@ -54,7 +59,25 @@ $(document).ready(function(){
 		       "NS9",
 		       "NS10",
 		       "NS11",
-		       "NS12"]];
+		       "NS12"];
+
+	
+	// set random position random int generating function + offset()
+	// get random coord pair: get screen dimensions, get random number in that range
+	// newPos = new Object();
+	// newPos.left = "randnum1";  // (first in pair)
+	// newPos.top = "randnum2"; // (second in pair)
+	// $("p").offset(newPos);
+	
+	// central function:
+	// params: condition (0,1,2)
+	// CSpos; // cond1: walking, cond2: hearing
+	// CSneut; // cond1: hearing, cond2: walking
+	
+	// 1. copy lists into local vars
+	// 2. randomize lists
+	// 3. preset random coords
+	// 4. set onKeyDown listeners
 	
 	var c = 0;
 	var u = 0;
