@@ -2,6 +2,7 @@ $(document).ready(function(){
 	
 	var MAX_FONT_SIZE = 60;
 	var MIN_FONT_SIZE = 10;
+	var PERCENT_BLANK = 0.25;
 	var TIME_INT = 1200;
 	var US_SIZE = 16;
 	var CS_SIZE = 48;
@@ -72,6 +73,7 @@ $(document).ready(function(){
 	};
 	
 	/** Size pair class */
+	//SIZE OF IMAGES???
 	function SizePair(large, small){
 		this.largeSize = large || MAX_FONT_SIZE;
 		this.smallSize = small || MIN_FONT_SIZE;
@@ -91,15 +93,17 @@ $(document).ready(function(){
 	
 	// get random relative sizes
 	function randomSizePair(){
-		largeSize = Math.random() * (MAX_FONT_SIZE - MIN_FONT_SIZE) + MIN_FONT_SIZE;
-		smallSize = Math.random() * (largeSize - MIN_FONT_SIZE) + MIN_FONT_SIZE;
+		largeSize = Math.floor(Math.random() * (MAX_FONT_SIZE - MIN_FONT_SIZE + 1)) + MIN_FONT_SIZE;
+		smallSize = Math.floor(Math.random() * (largeSize - MIN_FONT_SIZE + 1)) + MIN_FONT_SIZE;
 		return new SizePair(largeSize, smallSize);
 	}
 	
 	// get random size
 	function randomSize(){
-		return (Math.random() * (MAX_FONT_SIZE - MIN_FONT_SIZE) + MIN_FONT_SIZE);
+		return (Math.floor(Math.random() * (MAX_FONT_SIZE - MIN_FONT_SIZE + 1)) + MIN_FONT_SIZE);
 	}
+	
+	
 	
 	/** Show a pair or single word */
 	// left = word on left
@@ -134,6 +138,17 @@ $(document).ready(function(){
 		
 	};
 	
+	function runCondition1(){
+		targetCount = 10;
+		CSPosCount = 5; // CSpos USpos
+		CSNeutCount = 5; // CSneut USneut
+		totalTrialCount = Math.floor(Math.random() * (100 - 90 + 1)) + 90; // 90..100
+		blankCount = Math.floor(totalTrialCount * PERCENT_BLANK);
+		USNSposCount = US_POS_LIST.length - CSPosCount;
+		USNSneutCount = US_NEUT_LIST.length - CSNeutCount;
+		NSPairCountSum = totalTrialCount - (targetCount + CSPosCount + CSNeutCount + blankCount + USNSposCount + USNSneutCount);
+		NSPairCountArray = []; // recursive function, get 10 numbers between 1..20 that add up to remainder trials (NSPairCountSum)
+	}
 	
 	
 	
