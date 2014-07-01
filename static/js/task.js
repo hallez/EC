@@ -1,5 +1,7 @@
 $(document).ready(function(){
 	
+	var MAX_FONT_SIZE = 60;
+	var MIN_FONT_SIZE = 10;
 	var TIME_INT = 1200;
 	var US_SIZE = 16;
 	var CS_SIZE = 48;
@@ -69,17 +71,35 @@ $(document).ready(function(){
 		this.y = y || 0;
 	};
 	
-	// set random position random int generating function + offset()
+	/** Size pair class */
+	function SizePair(large, small){
+		this.largeSize = large || MAX_FONT_SIZE;
+		this.smallSize = small || MIN_FONT_SIZE;
+	};
+	
+	// get random position random int generating function + offset()
 	// get random coord pair: get screen dimensions, get random number in that range
 	// newPos = new Object();
 	// newPos.left = "randnum1";  // (first in pair)
 	// newPos.top = "randnum2"; // (second in pair)
 	// $("p").offset(newPos);
 	function randomPos(){
-		x = Math.floor(Math.random() * WINDOW_WIDTH);
-		y = Math.floor(Math.random() * WINDOW_HEIGHT);
+		x = Math.floor(Math.random() * WINDOW_WIDTH); // MINUS PADDING? ALSO: MINIMUM POS
+		y = Math.floor(Math.random() * WINDOW_HEIGHT); // MINUS PADDING?
 		return new Point(x, y);
 	};
+	
+	// get random relative sizes
+	function randomSizePair(){
+		largeSize = Math.random() * (MAX_FONT_SIZE - MIN_FONT_SIZE) + MIN_FONT_SIZE;
+		smallSize = Math.random() * (largeSize - MIN_FONT_SIZE) + MIN_FONT_SIZE;
+		return new SizePair(largeSize, smallSize);
+	}
+	
+	// get random size
+	function randomSize(){
+		return (Math.random() * (MAX_FONT_SIZE - MIN_FONT_SIZE) + MIN_FONT_SIZE);
+	}
 	
 	/** Show a pair or single word */
 	// left = word on left
