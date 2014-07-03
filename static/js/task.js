@@ -1,14 +1,14 @@
 $(document).ready(function(){
 	
-	var MAX_FONT_SIZE = 60;
-	var MIN_FONT_SIZE = 10;
-	var PERCENT_BLANK = 0.25;
-	var TIME_INT = 1200;
-	var US_SIZE = 16;
-	var CS_SIZE = 48;
-	var PROXIMITY = "   "; // pixels? spaces?
-	var TARGET = "looking"; // size? in pair? by itself?
-	var US_POS_LIST = ["useful",
+	MAX_FONT_SIZE = 60;
+	MIN_FONT_SIZE = 10;
+	PERCENT_BLANK = 0.25;
+	TIME_INT = 1200;
+	US_SIZE = 16;
+	CS_SIZE = 48;
+	PROXIMITY = "   "; // pixels? spaces?
+	TARGET = "looking"; // size? in pair? by itself?
+	US_POS_LIST = ["useful",
 	       "calming",
 	       "desirable",
 		"appealing",
@@ -24,7 +24,7 @@ $(document).ready(function(){
 		"USp4",
 		"USp5",
 		"USp6"];
-	var US_NEUT_LIST = ["table",
+	US_NEUT_LIST = ["table",
 	       "magazine",
 	       "lamp",
 	       "room",
@@ -40,7 +40,7 @@ $(document).ready(function(){
 	       "USn4",
 	       "USn5",
 	       "USn6"];
-	var NS_LIST = ["concrete",
+	NS_LIST = ["concrete",
 		       "metal",
 		       "desk",
 		       "weather",
@@ -63,8 +63,8 @@ $(document).ready(function(){
 		       "NS10",
 		       "NS11",
 		       "NS12"];
-	var WINDOW_WIDTH = $(window).width();
-	var WINDOW_HEIGHT = $(window).height();
+	WINDOW_WIDTH = $(window).width();
+	WINDOW_HEIGHT = $(window).height();
 	
 	/** Point class */
 	function Point(x,y) {
@@ -86,15 +86,15 @@ $(document).ready(function(){
 	// newPos.top = "randnum2"; // (second in pair)
 	// $("p").offset(newPos);
 	function randomPos(){
-		x = Math.floor(Math.random() * WINDOW_WIDTH); // MINUS PADDING? ALSO: MINIMUM POS
-		y = Math.floor(Math.random() * WINDOW_HEIGHT); // MINUS PADDING?
+		var x = Math.floor(Math.random() * WINDOW_WIDTH); // MINUS PADDING? ALSO: MINIMUM POS
+		var y = Math.floor(Math.random() * WINDOW_HEIGHT); // MINUS PADDING?
 		return new Point(x, y);
 	};
 	
 	// get random relative sizes
 	function randomSizePair(){
-		largeSize = Math.floor(Math.random() * (MAX_FONT_SIZE - MIN_FONT_SIZE + 1)) + MIN_FONT_SIZE;
-		smallSize = Math.floor(Math.random() * (largeSize - MIN_FONT_SIZE + 1)) + MIN_FONT_SIZE;
+		var largeSize = Math.floor(Math.random() * (MAX_FONT_SIZE - MIN_FONT_SIZE + 1)) + MIN_FONT_SIZE;
+		var smallSize = Math.floor(Math.random() * (largeSize - MIN_FONT_SIZE + 1)) + MIN_FONT_SIZE;
 		return new SizePair(largeSize, smallSize);
 	}
 	
@@ -109,14 +109,31 @@ $(document).ready(function(){
 	// left = word on left
 	// right = word on right (may be null)
 	// position = position relative to viewport
-	function runTrial(word1, word2){
-		position = randomPos();
+	function runTrial(word1, cat1, word2, cat2){
+		var position = randomPos();
 		if (word2 == null) {
-			trialClass = Math.random > .5 ? "CS" : "US"; // MAY CHANGE (this is to match this to an element in css file, for SIZING)
+			var newPos = new Object();
+			newPos.left = position.x;
+			newPos.top = position.y; // if word goes off of window, set right to window width
+			$("#wrapper").offset(newPos).css("fontSize", randomSize());
+			
+			
 			// add paragraph node
 		}else{
-			// somehow break up the two parts so that they have different classes
-			// ADD A PARAM SO THAT WE KNOW IF THE WORD IS US, CS, NS
+			var leftword = Math.random() < .5 ? word1 : word2;
+			var rightword = leftword == word1 ? word2 : word1;
+			var leftcat = leftword == word1 ? cat1 : cat2;
+			var rightcat = leftcat == cat1 ? cat2 : cat1;
+			var sizepair = randomSizePair();
+			if (cat1 == "NS" || cat2 == "NS") {
+				$("#left").text(leftword).addClass(leftcat).css("fontSize", randomSize());
+				$("#right").text(rightword).addClass(rightcat).css("fontSize", randomSize());
+			}else{
+			var leftsize = leftcat == "US" ? sizepair.smallSize : sizepair.largeSize;
+			var rightsize = rightcat == "CS" ? sizepair.largeSize : sizepair.smallSize;
+			$("#left").text(leftword).addClass(leftcat).css("fontSize", leftsize);
+			$("#right").text(rightword).addClass(rightcat).css("fontSize", rightsize);
+			}
 		}
 	};
 	
