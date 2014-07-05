@@ -1,0 +1,63 @@
+MAX_FONT_SIZE = 60;
+MIN_FONT_SIZE = 10;
+PERCENT_BLANK = 0.25;
+TIME_INT = 1200;
+US_SIZE = 16;
+CS_SIZE = 48;
+PROXIMITY = "   "; // pixels? spaces?
+TARGET = "looking"; // size? in pair? by itself?
+US_POS_LIST = ["useful",
+	       "calming",
+	       "desirable",
+		"appealing",
+		"relaxing",
+		"beneficial",
+		"worthwhile",
+		"valuable",
+		"terrific",
+		"commendable",
+		"USp1",
+		"USp2",
+		"USp3",
+		"USp4",
+		"USp5",
+		"USp6"];
+US_NEUT_LIST = ["table",
+	       "magazine",
+	       "lamp",
+	       "room",
+	       "door",
+	       "window",
+	       "wall",
+	       "paper",
+	       "sideways",
+	       "front",
+	       "USn1",
+	       "USn2",
+	       "USn3",
+	       "USn4",
+	       "USn5",
+	       "USn6"];
+	NS_LIST = ["concrete",
+		       "metal",
+		       "desk",
+		       "weather",
+		       "hallway",
+		       "ceiling",
+		       "air",
+		       "flat",
+		       "next",
+		       "pencil",
+		       "vent",
+		       "plastic",
+		       "NS1",
+		       "NS2",
+		       "NS3",
+		       "NS4",
+		       "NS5",
+		       "NS6",
+		       "NS7",
+		       "NS9",
+		       "NS10",
+		       "NS11",
+		       "NS12"];
