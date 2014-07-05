@@ -3,36 +3,62 @@ $(document).ready(function(){
 	WINDOW_WIDTH = $(window).width();
 	WINDOW_HEIGHT = $(window).height();
 	
-	/** Show a pair or single word */
+	/** Load a pair or single stimulus */
 	// left = word on left
 	// right = word on right (may be null)
 	// position = position relative to viewport
-	function runTrial(word1, cat1, word2, cat2){
+	function loadTrial(index, blocktype, word1, cat1, word2, cat2){
+		var wrapper_label = blocktype+"_"+index;
 		var position = randomPos();
-		if (word2 == null) {
-			var newPos = new Object();
+		var newPos = new Object();
 			newPos.left = position.x;
-			newPos.top = position.y; // if word goes off of window, set right to window width
-			$("#wrapper").offset(newPos).css("fontSize", randomSize());
+			newPos.top = position.y;
+			$("#wrapper").append("div").addClass("stimBox "+wrapper_label);
+			$(".stimBox").offset(newPos).css("display", "none"); // if word goes off of window, set right to window width
+
+		//if (word1.substring(word1.length, 4) == ".JPG"){
+		//	$(".stimBox").append()
+		//}
+		if (word2 == null) {
+			$(".stimBox").append("div").text(word1).addClass("center").css("fontSize", randomSize);
 			
-			
-			// add paragraph node
 		}else{
+			$(".stimBox").append("div").addClass("left");
+			$(".stimBox").append("div").addClass("right");
 			var leftword = Math.random() < .5 ? word1 : word2;
 			var rightword = leftword == word1 ? word2 : word1;
 			var leftcat = leftword == word1 ? cat1 : cat2;
 			var rightcat = leftcat == cat1 ? cat2 : cat1;
-			var sizepair = randomSizePair();
-			if (cat1 == "NS" || cat2 == "NS") {
-				$("#left").text(leftword).addClass(leftcat).css("fontSize", randomSize());
-				$("#right").text(rightword).addClass(rightcat).css("fontSize", randomSize());
+			
+			var leftword_is_img = leftword.substring(leftword.length,4)==".JPG";
+			var rightword_is_img = rightword.substring(rightword.length,4)==".JPG";
+			
+			if (leftword_is_img && rightword_is_img) {
+				leftword_img = "<img src=\'../images/"+leftword+"\'>";
+				rightword_img = "<img src=\'../images/"+rightword+"\'>";
+				$(".stimBox").append("div").addClass("left").html(leftword_img); // set size
+				$(".stimBox").append("div").addClass("right").html(rightword_img); // set size.. random img size function?
+			}else if (leftword_is_img) {
+				leftword_img = "<img src=\'../images/"+leftword+"\'>";
+				$(".stimBox").append("div").addClass("left").html(leftword_img); // set size
+				$(".stimBox").append("div").addClass("right").text(rightword).css("fontSize", randomSize);
+			}else if (rightword_is_img) {
+				$(".stimBox").append("div").addClass("left").text(leftword).css("fontSize", randomSize);
+				rightword_img = "<img src=\'../images/"+rightword+"\'>";
+				$(".stimBox").append("div").addClass("right").html(righword_img); // set size
 			}else{
-			var leftsize = leftcat == "US" ? sizepair.smallSize : sizepair.largeSize;
-			var rightsize = rightcat == "CS" ? sizepair.largeSize : sizepair.smallSize;
-			$("#left").text(leftword).addClass(leftcat).css("fontSize", leftsize);
-			$("#right").text(rightword).addClass(rightcat).css("fontSize", rightsize);
+				if (leftcat == "NS" || rightcat == "NS") {
+					$(".stimBox").append("div").addClass("left").text(leftword).css("fontSize", randomSize());
+					$(".stimBox").append("div").addClass("right").text(rightword).css("fontSize", randomSize());
+				}else{
+					var leftsize = leftcat == "US" ? sizepair.smallSize : sizepair.largeSize;
+					var rightsize = rightcat == "CS" ? sizepair.largeSize : sizepair.smallSize;
+					$(".stimBox").append("div").addClass("left").text(leftword).css("fontSize", leftsize);
+					$(".stimBox").append("div").addClass("right").text(rightword).css("fontSize", rightsize);
+				}
 			}
 		}
+
 	};
 	
 	/** Running conditions */
@@ -44,11 +70,11 @@ $(document).ready(function(){
 	// 2. randomize lists
 	// 3. preset random coords
 	// 4. set onKeyDown listeners
-	function runPractice(){
+	function runPractice1(){
 		targetCount = 2; // may not be necessary
 		CSPosCount = 5;
 		CSNeutCount = 5;
-		CSPos = "walking"; // ???
+		CSPos = "walking";
 		CSNeut = "hearing";
 		
 	};
