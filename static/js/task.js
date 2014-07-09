@@ -1,19 +1,4 @@
-	// recursive function, get 10 numbers between 1..20 that add up to remainder trials (NSPairCountSum)
-	// pre: NSCountArray is an array of integers
-	function calcNSPairs(NSCountArray, NSPairCountSum) {
-		var total = 0;
-		$.each(NSCountArray,function() {
-		    total += this;
-		});
-		if (total == NSPairCountSum) {
-			return NSCountArray;
-		}
-		
-		var addPos = Math.floor(Math.random() * NSCountArray);
-		NSCountArray[addPos]++; // unless it is over 20
-		return calcNSPairs(NSCountArray, NSPairCountSum);
-	}
-	
+
 	/** Load a pair or single stimulus */
 	// left = word on left
 	// right = word on right (may be null)
@@ -131,10 +116,10 @@
 			StimORder.push(BLANK);
 		}
 		for (var i = 0; i < USNSposCount; i++){
-			StimORder.push(US_NS_POS_PAIR);
+			StimOrder.push(US_NS_POS_PAIR);
 		}
 		for (var i = 0; i < USNSneutCount; i++){
-			StimORder.push(US_NS_NEUT_PAIR);
+			StimOrder.push(US_NS_NEUT_PAIR);
 		}
 		
 		// shuffle StimOrder
@@ -209,8 +194,10 @@
 	
 	}
 
+
+
+
 $(document).ready(function(){
-	
 	//var c = 0;
 	//var u = 0;
 	//var k = 0;

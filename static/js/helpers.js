@@ -1,3 +1,20 @@
+	
+	// recursive function, get 10 numbers between 1..20 that add up to remainder trials (NSPairCountSum)
+	// pre: NSCountArray is an array of integers
+	function calcNSPairs(NSCountArray, NSPairCountSum) {
+		var total = 0;
+		$.each(NSCountArray,function() {
+		    total += this;
+		});
+		if (total == NSPairCountSum) {
+			return NSCountArray;
+		}
+		
+		var addPos = Math.floor(Math.random() * NSCountArray);
+		NSCountArray[addPos]++; // unless it is over 20
+		return calcNSPairs(NSCountArray, NSPairCountSum);
+	}
+	
 	// get random position random int generating function + offset()
 	// get random coord pair: get screen dimensions, get random number in that range
 	// newPos = new Object();
@@ -15,7 +32,7 @@
 		var x = Math.floor(Math.random() * $(window).width()); // MINUS PADDING? ALSO: MINIMUM POS
 		var y = Math.floor(Math.random() * $(window).height()); // MINUS PADDING?
 		return new Point(x, y);
-	};
+	}
 	
 	// get random relative sizes
 	function randomSizePair(){
@@ -44,4 +61,3 @@
 	    return array;
 	}
 
-	
