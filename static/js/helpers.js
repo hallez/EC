@@ -23,3 +23,34 @@
 	}
 	
 	
+	// recursive function, get 10 numbers between 1..20 that add up to remainder trials (NSPairCountSum)
+	// pre: NSCountArray is an array of integers
+	function calcNSPairs(NSCountArray, NSPairCountSum) {
+		var total = 0;
+		$.each(arr,function() {
+		    total += this;
+		});
+		if (total == NSPairCountSum) {
+			return NSCountArray;
+		}
+		
+		var addPos = Math.floor(Math.random() * NSCountArray);
+		NSCountArray[addPos]++;
+		return calcNSPairs(NSCountArray, NSPairCountSum);
+	}
+	
+	/**
+	* Randomize array element order in-place.
+	* Using Fisher-Yates shuffle algorithm.
+	*/
+	function shuffleArray(array) {
+	    for (var i = array.length - 1; i > 0; i--) {
+	        var j = Math.floor(Math.random() * (i + 1));
+	        var temp = array[i];
+	        array[i] = array[j];
+	        array[j] = temp;
+	    }
+	    return array;
+	}
+
+	

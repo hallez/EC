@@ -71,24 +71,78 @@ $(document).ready(function(){
 	// 3. preset random coords
 	// 4. set onKeyDown listeners
 	function runPractice1(){
+		us_pos_list = US_POS_LIST;
+		us_neut_list = US_NEUT_LIST;
+		ns_list = NS_LIST;
 		targetCount = 2; // may not be necessary
-		CSPosCount = 5;
-		CSNeutCount = 5;
+		CSPosCount = 2;
+		CSNeutCount = 2;
 		CSPos = "walking";
 		CSNeut = "hearing";
+		
 		
 	};
 	
 	function runCondition1(){
+		us_pos_list = US_POS_LIST.slice(0);
+		us_neut_list = US_NEUT_LIST.slice(0);
+		ns_list = NS_LIST.slice(0);
 		targetCount = 10;
 		CSPosCount = 5; // CSpos USpos
 		CSNeutCount = 5; // CSneut USneut
-		totalTrialCount = Math.floor(Math.random() * (100 - 90 + 1)) + 90; // 90..100
+		totalTrialCount = Math.floor(Math.random() * (100 - 90) + 1) + 90; // 90..100
 		blankCount = Math.floor(totalTrialCount * PERCENT_BLANK);
 		USNSposCount = US_POS_LIST.length - CSPosCount;
 		USNSneutCount = US_NEUT_LIST.length - CSNeutCount;
 		NSPairCountSum = totalTrialCount - (targetCount + CSPosCount + CSNeutCount + blankCount + USNSposCount + USNSneutCount);
 		NSPairCountArray = []; // recursive function, get 10 numbers between 1..20 that add up to remainder trials (NSPairCountSum)
+		
+		for (i = 0; i < CSPosCount + CSNeutCount; i++){
+			NSPairCountArray.push(1);
+		}
+		
+		NSPairCountArray = calcNSPairs(NSPairCountArray, NSPairCountSum);
+		
+		// Set stim order
+		StimOrder = [];
+		for (var i = 0; i < CSPosCount; i++){
+			StimOrder.push(CS_POS_PAIR);
+		}
+		for (var i = 0; i < CSNeutCount; i++){
+			StimOrder.push(CS_NEUT_PAIR);
+		}
+		for (var i = 0; i < targetCount; i++){
+			StimOrder.push(DISP_TARGET);
+		}
+		for (var i = 0; i < blankCount; i++){
+			StimORder.push(BLANK);
+		}
+		for (var i = 0; i < USNSposCount; i++){
+			StimORder.push(US_NS_POS_PAIR);
+		}
+		for (var i = 0; i < USNSneutCount; i++){
+			StimORder.push(US_NS_NEUT_PAIR);
+		}
+		
+		// shuffle StimOrder
+		shuffleArray(StimOrder);
+		
+		NSPairPos = 0;
+		
+		for (var i = 0; i < StimOrder.length; i++){
+			if (StimOrder[i] == CS_POS_PAIR || StimOrder[i] == CS_NEUT_PAIR) {
+				// add ns pairs from NSPairCountArray
+				
+				for (var k = 1; k <= NSPairCountArray[NSPairPos]; k++) {
+					StimOrder.splice(i+k, 0, NS_NS_PAIR);
+				}
+				NSPairPos++;
+			}
+			
+		}
+		
+		
+		
 	}
 	
 	
