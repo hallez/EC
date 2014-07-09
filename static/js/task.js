@@ -143,6 +143,9 @@ $(document).ready(function(){
 			
 		}
 		
+		alert(StimOrder);
+
+		
 		
 	for (var i = 0; i < StimOrder.length; i++){
 		var stim_type = StimOrder[i];
@@ -185,13 +188,13 @@ $(document).ready(function(){
 		
 	}
 	
-	var trial;
-	for (trial in StimOrder){
-		loadTrial(trial.stim1, trial.cat1, trial.stim2, trial.cat2);
+	
+	for (var i = 0; i < StimOrder.length; i++){
+		var trial = StimOrder[i];
+		var block_type = "C"+cond;
+		loadTrial(i, block_type, trial.stim1, trial.cat1, trial.stim2, trial.cat2);
 	}
-	
-	
-	
+		
 	
 	}
 	
@@ -222,4 +225,8 @@ $(document).ready(function(){
 	//}, 600);
 	
 
+// MAIN //
+runCondition(1);
+
 });
+
