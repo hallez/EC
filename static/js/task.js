@@ -16,9 +16,9 @@ $(document).ready(function(){
 			$("#wrapper").append("div").addClass("stimBox "+wrapper_label);
 			$(".stimBox").offset(newPos).css("display", "none"); // if word goes off of window, set right to window width
 
-		//if (word1.substring(word1.length, 4) == ".JPG"){
-		//	$(".stimBox").append()
-		//}
+		if (word1 == null && word2 == null) {
+			// do nothing
+		}
 		if (word2 == null) {
 			$(".stimBox").append("div").text(word1).addClass("center").css("fontSize", randomSize);
 			
@@ -70,20 +70,22 @@ $(document).ready(function(){
 	// 2. randomize lists
 	// 3. preset random coords
 	// 4. set onKeyDown listeners
-	function runPractice1(){
-		us_pos_list = US_POS_LIST;
-		us_neut_list = US_NEUT_LIST;
-		ns_list = NS_LIST;
+	function runPractice(cond){
+		us_pos_list = US_POS_LIST.slice(0);
+		us_neut_list = US_NEUT_LIST.slice(0);
+		ns_list = NS_LIST.slice(0);
 		targetCount = 2; // may not be necessary
 		CSPosCount = 2;
 		CSNeutCount = 2;
-		CSPos = "walking";
-		CSNeut = "hearing";
-		
 		
 	};
 	
-	function runCondition1(){
+	function runCondition(cond){
+		CSPos = cond == 1 ? "walking" : "hearing";
+		CSNeut = cond == 1 ? "hearing" : "walking";
+		
+		//runPractice(cond);
+		
 		us_pos_list = US_POS_LIST.slice(0);
 		us_neut_list = US_NEUT_LIST.slice(0);
 		ns_list = NS_LIST.slice(0);
@@ -142,10 +144,56 @@ $(document).ready(function(){
 		}
 		
 		
+	for (var i = 0; i < StimOrder.length; i++){
+		var stim_type = StimOrder[i];
+		switch (stim_type){
+			case CS_POS_PAIR:
+				var pos = Math.floor(Math.random() * us_pos_list.length);
+				var usPosStim = us_pos_list[pos];
+				us_pos_list.splice(pos1, 1);
+				StimOrder[i] = new TrialItem(CSPos, "CS", usPosStim, "US");
+				break;
+			case CS_NEUT_PAIR:
+				var pos = Math.floor(Math.random() * us_neut_list.length);
+				var usNeutStim = us_neut_list[pos];
+				us_neut_list.splice(pos, 1);
+				StimOrder[i] = new TrialItem(CSNeut, "CS", usNeutStim, "US");
+				break;
+			case CS_BLANK_PAIR:
+				StimOrder[i] = new TrialItem();
+				break;
+			case DISP_TARGET:
+				if (Math.random() < .5) {
+					StimOrder[i] = new TrialItem(TARGET, "target");
+				}else{
+					var pos = Math.floor(Math.random() * ns_list.length);
+					var nsStim = ns_list[pos];
+					StimOrder[i] = new TrialItem(TARGET, "target", nsStim, "NS");
+				}
+				break;
+			case NS_NS_PAIR:
+				var pos1 = Math.floor(Math.random() * ns_list.length);
+				var nsStim1 = ns_list[pos1];
+				var pos2 = Math.floor(Math.random() * ns_list.length);
+				while (pos2 == pos1) {
+					pos2 = Math.floor(Math.random() * ns_list.length);
+				}
+				var nsStim2 = ns_list[pos2];
+				StimOrder[i] = new TrialItem(nsStim1, "NS", nsStim2, "NS");
+				break;
+		}
 		
 	}
 	
+	var trial;
+	for (trial in StimOrder){
+		loadTrial(trial.stim1, trial.cat1, trial.stim2, trial.cat2);
+	}
 	
+	
+	
+	
+	}
 	
 	//var c = 0;
 	//var u = 0;
