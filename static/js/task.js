@@ -1,7 +1,18 @@
-$(document).ready(function(){
-
-	WINDOW_WIDTH = $(window).width();
-	WINDOW_HEIGHT = $(window).height();
+	// recursive function, get 10 numbers between 1..20 that add up to remainder trials (NSPairCountSum)
+	// pre: NSCountArray is an array of integers
+	function calcNSPairs(NSCountArray, NSPairCountSum) {
+		var total = 0;
+		$.each(NSCountArray,function() {
+		    total += this;
+		});
+		if (total == NSPairCountSum) {
+			return NSCountArray;
+		}
+		
+		var addPos = Math.floor(Math.random() * NSCountArray);
+		NSCountArray[addPos]++; // unless it is over 20
+		return calcNSPairs(NSCountArray, NSPairCountSum);
+	}
 	
 	/** Load a pair or single stimulus */
 	// left = word on left
@@ -59,7 +70,7 @@ $(document).ready(function(){
 			}
 		}
 
-	};
+	}
 	
 	/** Running conditions */
 	// params: condition (0,1,2)
@@ -78,7 +89,7 @@ $(document).ready(function(){
 		CSPosCount = 2;
 		CSNeutCount = 2;
 		
-	};
+	}
 	
 	function runCondition(cond){
 		CSPos = cond == 1 ? "walking" : "hearing";
@@ -197,6 +208,8 @@ $(document).ready(function(){
 		
 	
 	}
+
+$(document).ready(function(){
 	
 	//var c = 0;
 	//var u = 0;

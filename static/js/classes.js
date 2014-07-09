@@ -1,3 +1,6 @@
+
+$(document).ready(function(){
+
 /** Point class */
 function Point(x,y) {
     this.x = x || 0;
@@ -19,3 +22,5 @@ function TrialItem(stim1, cat1, stim2, cat2) {
     this.cat1 = cat1;
     this.cat2 = cat2;
 };
+
+});
