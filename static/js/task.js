@@ -3,24 +3,31 @@
 	// left = word on left
 	// right = word on right (may be null)
 	// position = position relative to viewport
+	
+	successArr = [];
+	
 	function loadTrial(index, blocktype, word1, cat1, word2, cat2){
 		var wrapper_label = blocktype+"_"+index;
 		var position = randomPos();
 		var newPos = new Object();
 			newPos.left = position.x;
 			newPos.top = position.y;
-			$("#wrapper").append("div").addClass("stimBox "+wrapper_label);
-			$(".stimBox").offset(newPos).css("display", "none"); // if word goes off of window, set right to window width
+			var stimbox = $("<div></div>").addClass("stimBox "+wrapper_label);
+			$("#wrapper").append(stimbox);
+			stimbox.offset(newPos).css("display", "none"); // if word goes off of window, set right to window width
 
 		if (word1 == null && word2 == null) {
 			// do nothing
 		}
 		if (word2 == null) {
-			$(".stimBox").append("div").text(word1).addClass("center").css("fontSize", randomSize);
+			var newdiv = $("<div></div>").text(word1).addClass("center").css("fontSize", randomSize);
+			stimbox.append(newdiv);
 			
 		}else{
-			$(".stimBox").append("div").addClass("left");
-			$(".stimBox").append("div").addClass("right");
+			var leftdiv = $("<div></div>").addClass("left");
+			var rightdiv = $("<div></div>").addClass("right");
+			stimbox.append(leftdiv);
+			stimbox.append(rightdiv);
 			var leftword = Math.random() < .5 ? word1 : word2;
 			var rightword = leftword == word1 ? word2 : word1;
 			var leftcat = leftword == word1 ? cat1 : cat2;
@@ -30,30 +37,33 @@
 			var rightword_is_img = rightword.substring(rightword.length,4)==".JPG";
 			
 			if (leftword_is_img && rightword_is_img) {
-				leftword_img = "<img src=\'../images/"+leftword+"\'>";
-				rightword_img = "<img src=\'../images/"+rightword+"\'>";
-				$(".stimBox").append("div").addClass("left").html(leftword_img); // set size
-				$(".stimBox").append("div").addClass("right").html(rightword_img); // set size.. random img size function?
+				leftword_img = "<img src=\'../static/images/"+leftword+"\'>";
+				rightword_img = "<img src=\'../static/images/"+rightword+"\'>";
+				leftdiv.html(leftword_img); 
+				rightdiv.html(rightword_img);
 			}else if (leftword_is_img) {
-				leftword_img = "<img src=\'../images/"+leftword+"\'>";
-				$(".stimBox").append("div").addClass("left").html(leftword_img); // set size
-				$(".stimBox").append("div").addClass("right").text(rightword).css("fontSize", randomSize);
+				leftword_img = "<img src=\'../static/images/"+leftword+"\'>";
+				leftdiv.html(leftword_img);
+				rightdiv.text(rightword).css("fontSize", randomSize);
 			}else if (rightword_is_img) {
-				$(".stimBox").append("div").addClass("left").text(leftword).css("fontSize", randomSize);
-				rightword_img = "<img src=\'../images/"+rightword+"\'>";
-				$(".stimBox").append("div").addClass("right").html(righword_img); // set size
+				leftdiv.text(leftword).css("fontSize", randomSize);
+				rightword_img = "<img src=\'../static/images/"+rightword+"\'>";
+				rightdiv.html(rightword_img);
 			}else{
 				if (leftcat == "NS" || rightcat == "NS") {
-					$(".stimBox").append("div").addClass("left").text(leftword).css("fontSize", randomSize());
-					$(".stimBox").append("div").addClass("right").text(rightword).css("fontSize", randomSize());
+					leftdiv.text(leftword).css("fontSize", randomSize);
+					rightdiv.text(rightword).css("fontSize", randomSize);
 				}else{
+					var sizepair = randomSizePair();
 					var leftsize = leftcat == "US" ? sizepair.smallSize : sizepair.largeSize;
 					var rightsize = rightcat == "CS" ? sizepair.largeSize : sizepair.smallSize;
-					$(".stimBox").append("div").addClass("left").text(leftword).css("fontSize", leftsize);
-					$(".stimBox").append("div").addClass("right").text(rightword).css("fontSize", rightsize);
+					leftdiv.text(leftword).css("fontSize", leftsize);
+					rightdiv.text(rightword).css("fontSize", rightsize);
 				}
 			}
 		}
+		
+		successArr.push(index);
 
 	}
 	
@@ -113,7 +123,7 @@
 			StimOrder.push(DISP_TARGET);
 		}
 		for (var i = 0; i < blankCount; i++){
-			StimORder.push(BLANK);
+			StimOrder.push(BLANK);
 		}
 		for (var i = 0; i < USNSposCount; i++){
 			StimOrder.push(US_NS_POS_PAIR);
@@ -139,7 +149,7 @@
 			
 		}
 		
-		alert(StimOrder);
+		//alert(StimOrder + "   number of total trials: "+totalTrialCount+",   number of blanks: "+blankCount+",   number of NSNS: "+NSPairCountSum);
 
 		
 		
@@ -158,7 +168,7 @@
 				us_neut_list.splice(pos, 1);
 				StimOrder[i] = new TrialItem(CSNeut, "CS", usNeutStim, "US");
 				break;
-			case CS_BLANK_PAIR:
+			case BLANK:
 				StimOrder[i] = new TrialItem();
 				break;
 			case DISP_TARGET:
@@ -190,43 +200,25 @@
 		var block_type = "C"+cond;
 		loadTrial(i, block_type, trial.stim1, trial.cat1, trial.stim2, trial.cat2);
 	}
-		
 	
+	
+	k = 0;
+	setInterval(function(){
+		var wrapper_label = ".C"+cond+"_"+k;
+		$(".stimBox").css("display", "none");
+		$(wrapper_label).css("display","block");
+		k++;
+	
+	}, 1200);
+
 	}
 
 
-
-
 $(document).ready(function(){
-	//var c = 0;
-	//var u = 0;
-	//var k = 0;
-	//var hide1 = Math.random() < .5 ? "#cs" : "#us";
-	//var hide2 = hide1 == "#cs" ? "#us" : "#cs";
-	//
-	//var flashing = setInterval(function(){
-	//	$("#cs").text(CSlist[c]);
-	//	$("#us").text(USlist[c][u]);
-	//	$(hide1).show(0).delay(275).hide(0).delay(25).show(0);
-	//	$(hide2).show(0).delay(575).hide(0).delay(25).show(0);
-	//	if (k == 4) {
-	//		k = 0;
-	//		u++;
-	//	}
-	//	if (u >= USlist[c].length) {
-	//		u = 0;
-	//		c++;
-	//	}
-	//	if (c >= CSlist.length ) {
-	//		clearInterval(flashing);
-	//	}
-	//	k++;
-	//
-	//}, 600);
 	
-
 // MAIN //
 runCondition(1);
+//alert(successArr);
 
 });
 

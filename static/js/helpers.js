@@ -8,11 +8,14 @@
 		});
 		if (total == NSPairCountSum) {
 			return NSCountArray;
-		}
+		}else{
 		
-		var addPos = Math.floor(Math.random() * NSCountArray);
-		NSCountArray[addPos]++; // unless it is over 20
+		var addPos = Math.floor(Math.random() * (NSCountArray.length - 1));
+		if (NSCountArray[addPos] < 20) {
+			NSCountArray[addPos]++;
+		}
 		return calcNSPairs(NSCountArray, NSPairCountSum);
+		}
 	}
 	
 	// get random position random int generating function + offset()
@@ -29,8 +32,8 @@
 	//};
 
 	function randomPos(){
-		var x = Math.floor(Math.random() * $(window).width()); // MINUS PADDING? ALSO: MINIMUM POS
-		var y = Math.floor(Math.random() * $(window).height()); // MINUS PADDING?
+		var x = Math.floor(Math.random() * WINDOW_WIDTH); // MINUS PADDING? ALSO: MINIMUM POS
+		var y = Math.floor(Math.random() * WINDOW_HEIGHT); // MINUS PADDING?
 		return new Point(x, y);
 	}
 	
