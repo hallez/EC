@@ -15,15 +15,27 @@
 		if (word1 == null && word2 == null) {
 			// do nothing
 		} else if (word2 == null) {
-			var newspan = $("<span></span>").text(word1).addClass("center").css("fontSize", randomSize());
+			var newspan = $("<span></span>").addClass("center");
 			stimbox.append(newspan);
+			var word1_is_img = word1.indexOf(".JPG") > -1;
+			if (word1_is_img) {
+				img_str = "<img src=\'../static/images/"+word1+"\'>";
+				newspan.html(img_str);
+			} else {
+				newspan.text(word1).css("fontSize", randomSize());
+			}
 			boxwidth = newspan.width();
 			boxheight = newspan.height();
 		} else if (word1 == null) {
-			var newspan = $("<span></span>").text(word2).addClass("center").css("fontSize", randomSize());
+			var newspan = $("<span></span>").addClass("center");
 			stimbox.append(newspan);
-			boxwidth = newspan.width();
-			boxheight = newspan.height();
+			var word2_is_img = word2.indexOf(".JPG") > -1;
+			if (word2_is_img) {
+				img_str = "<img src=\'../static/images/"+word2+"\'>";
+				newspan.html(img_str);
+			} else {
+				newspan.text(word2).css("fontSize", randomSize());
+			}
 		}else{
 			var leftspan = $("<span></span>").addClass("left");
 			var rightspan = $("<span></span>").addClass("right");
@@ -205,7 +217,11 @@
 				us_pos_list.splice(pos1, 1);
 				var pos2 = Math.floor(Math.random() * ns_list.length);
 				var nsStim2 = ns_list[pos2];
+				if (Math.random() < .5) {
+					StimOrder[i] = new TrialItem(usPosStim, "US");
+				}else{
 				StimOrder[i] = new TrialItem(usPosStim, "US", nsStim2, "NS");
+				}
 				break;
 			case US_NS_NEUT_PAIR:
 				var pos1 = Math.floor(Math.random() * us_neut_list.length);
@@ -213,7 +229,11 @@
 				us_neut_list.splice(pos1, 1);
 				var pos2 = Math.floor(Math.random() * ns_list.length);
 				var nsStim2 = ns_list[pos2];
+				if (Math.random() < .5) {
+					StimOrder[i] = new TrialItem(usNeutStim, "US");
+				}else{
 				StimOrder[i] = new TrialItem(usNeutStim, "US", nsStim2, "NS");
+				}
 				break;
 		}
 		
