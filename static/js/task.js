@@ -34,8 +34,8 @@
 			var leftcat = leftword == word1 ? cat1 : cat2;
 			var rightcat = leftcat == cat1 ? cat2 : cat1;
 			
-			var leftword_is_img = leftword.substring(leftword.length,4)==".JPG";
-			var rightword_is_img = rightword.substring(rightword.length,4)==".JPG";
+			var leftword_is_img = leftword.indexOf(".JPG") > -1;
+			var rightword_is_img = rightword.indexOf(".JPG") > -1;
 			
 			if (leftword_is_img && rightword_is_img) {
 				leftword_img = "<img src=\'../static/images/"+leftword+"\'>";
