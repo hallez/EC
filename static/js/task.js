@@ -235,7 +235,7 @@
 		$(wrapper_label).css("display","block");
 		k++;
 	
-	}, 1200);
+	}, TIME_INT);
 
 	}
 

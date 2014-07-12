@@ -32,8 +32,8 @@
 	//};
 
 	function randomPos(divwidth, divheight){
-		var x = Math.floor(Math.random() * (WINDOW_WIDTH - divwidth)); // MINUS PADDING? ALSO: MINIMUM POS
-		var y = Math.floor(Math.random() * (WINDOW_HEIGHT - divheight - 20 - 1)) + 20; // MINUS PADDING?
+		var x = Math.floor(Math.random() * (WINDOW_WIDTH - divwidth - 30 - 1) +30); // MINUS PADDING? ALSO: MINIMUM POS
+		var y = Math.floor(Math.random() * (WINDOW_HEIGHT - divheight - 30 - 1)) + 30; // MINUS PADDING?
 		return new Point(x, y);
 	}
 	
