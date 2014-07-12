@@ -15,20 +15,20 @@
 		if (word1 == null && word2 == null) {
 			// do nothing
 		} else if (word2 == null) {
-			var newdiv = $("<span></span>").text(word1).addClass("center").css("fontSize", randomSize());
-			stimbox.append(newdiv);
-			boxwidth = newdiv.width();
-			boxheight = newdiv.height();
+			var newspan = $("<span></span>").text(word1).addClass("center").css("fontSize", randomSize());
+			stimbox.append(newspan);
+			boxwidth = newspan.width();
+			boxheight = newspan.height();
 		} else if (word1 == null) {
-			var newdiv = $("<span></span>").text(word2).addClass("center").css("fontSize", randomSize());
-			stimbox.append(newdiv);
-			boxwidth = newdiv.width();
-			boxheight = newdiv.height();
+			var newspan = $("<span></span>").text(word2).addClass("center").css("fontSize", randomSize());
+			stimbox.append(newspan);
+			boxwidth = newspan.width();
+			boxheight = newspan.height();
 		}else{
-			var leftdiv = $("<span></span>").addClass("left");
-			var rightdiv = $("<span></span>").addClass("right");
-			stimbox.append(leftdiv);
-			stimbox.append(rightdiv);
+			var leftspan = $("<span></span>").addClass("left");
+			var rightspan = $("<span></span>").addClass("right");
+			stimbox.append(leftspan);
+			stimbox.append(rightspan);
 			var leftword = Math.random() < .5 ? word1 : word2;
 			var rightword = leftword == word1 ? word2 : word1;
 			var leftcat = leftword == word1 ? cat1 : cat2;
@@ -40,30 +40,30 @@
 			if (leftword_is_img && rightword_is_img) {
 				leftword_img = "<img src=\'../static/images/"+leftword+"\'>";
 				rightword_img = "<img src=\'../static/images/"+rightword+"\'>";
-				leftdiv.html(leftword_img); 
-				rightdiv.html(rightword_img);
+				leftspan.html(leftword_img); 
+				rightspan.html(rightword_img);
 			}else if (leftword_is_img) {
 				leftword_img = "<img src=\'../static/images/"+leftword+"\'>";
-				leftdiv.html(leftword_img);
-				rightdiv.text(rightword).css("fontSize", randomSize());
+				leftspan.html(leftword_img);
+				rightspan.text(rightword).css("fontSize", randomSize());
 			}else if (rightword_is_img) {
-				leftdiv.text(leftword).css("fontSize", randomSize());
+				leftspan.text(leftword).css("fontSize", randomSize());
 				rightword_img = "<img src=\'../static/images/"+rightword+"\'>";
-				rightdiv.html(rightword_img);
+				rightspan.html(rightword_img);
 			}else{
 				if (leftcat == "NS" || rightcat == "NS") {
-					leftdiv.text(leftword).css("fontSize", randomSize());
-					rightdiv.text(rightword).css("fontSize", randomSize());
+					leftspan.text(leftword).css("fontSize", randomSize());
+					rightspan.text(rightword).css("fontSize", randomSize());
 				}else{
 					var sizepair = randomSizePair();
 					var leftsize = leftcat == "US" ? sizepair.smallSize : sizepair.largeSize;
 					var rightsize = rightcat == "CS" ? sizepair.largeSize : sizepair.smallSize;
-					leftdiv.text(leftword).css("fontSize", leftsize);
-					rightdiv.text(rightword).css("fontSize", rightsize);
+					leftspan.text(leftword).css("fontSize", leftsize);
+					rightspan.text(rightword).css("fontSize", rightsize);
 				}
 			}
-			boxwidth = leftdiv.width() + rightdiv.width() + 50;
-			boxheight = leftdiv.height() + rightdiv.height() + 100;
+			boxwidth = leftspan.width() + rightspan.width() + 50;
+			boxheight = leftspan.height() + rightspan.height() + 100;
 		}
 		
 		var position = randomPos(boxwidth, boxheight);
@@ -76,69 +76,6 @@
 		successArr.push(index);
 
 	}
-	//function loadTrial(index, blocktype, word1, cat1, word2, cat2){
-	//	var wrapper_label = blocktype+"_"+index;
-	//	var stimbox = $("<div></div>").addClass("stimBox "+wrapper_label);
-	//	$("#wrapper").append(stimbox);
-	//	
-	//	if (word1 == null && word2 == null) {
-	//		// do nothing
-	//	} else if (word2 == null) {
-	//		var newdiv = $("<div></div>").text(word1).addClass("center").css("fontSize", randomSize());
-	//		stimbox.append(newdiv);
-	//	} else if (word1 == null) {
-	//		var newdiv = $("<div></div>").text(word2).addClass("center").css("fontSize", randomSize());
-	//		stimbox.append(newdiv);
-	//	}else{
-	//		var leftdiv = $("<div></div>").addClass("left");
-	//		var rightdiv = $("<div></div>").addClass("right");
-	//		stimbox.append(leftdiv);
-	//		stimbox.append(rightdiv);
-	//		var leftword = Math.random() < .5 ? word1 : word2;
-	//		var rightword = leftword == word1 ? word2 : word1;
-	//		var leftcat = leftword == word1 ? cat1 : cat2;
-	//		var rightcat = leftcat == cat1 ? cat2 : cat1;
-	//		
-	//		var leftword_is_img = leftword.substring(leftword.length,4)==".JPG";
-	//		var rightword_is_img = rightword.substring(rightword.length,4)==".JPG";
-	//		
-	//		if (leftword_is_img && rightword_is_img) {
-	//			leftword_img = "<img src=\'../static/images/"+leftword+"\'>";
-	//			rightword_img = "<img src=\'../static/images/"+rightword+"\'>";
-	//			leftdiv.html(leftword_img); 
-	//			rightdiv.html(rightword_img);
-	//		}else if (leftword_is_img) {
-	//			leftword_img = "<img src=\'../static/images/"+leftword+"\'>";
-	//			leftdiv.html(leftword_img);
-	//			rightdiv.text(rightword).css("fontSize", randomSize());
-	//		}else if (rightword_is_img) {
-	//			leftdiv.text(leftword).css("fontSize", randomSize());
-	//			rightword_img = "<img src=\'../static/images/"+rightword+"\'>";
-	//			rightdiv.html(rightword_img);
-	//		}else{
-	//			if (leftcat == "NS" || rightcat == "NS") {
-	//				leftdiv.text(leftword).css("fontSize", randomSize());
-	//				rightdiv.text(rightword).css("fontSize", randomSize());
-	//			}else{
-	//				var sizepair = randomSizePair();
-	//				var leftsize = leftcat == "US" ? sizepair.smallSize : sizepair.largeSize;
-	//				var rightsize = rightcat == "CS" ? sizepair.largeSize : sizepair.smallSize;
-	//				leftdiv.text(leftword).css("fontSize", leftsize);
-	//				rightdiv.text(rightword).css("fontSize", rightsize);
-	//			}
-	//		}
-	//	}
-	//	
-	//	var position = randomPos(stimbox.width(), stimbox.height());
-	//	var newPos = new Object();
-	//		newPos.left = position.x;
-	//		newPos.top = position.y;
-	//		stimbox.offset(newPos).css("display", "none"); // if word goes off of window, set right to window width
-	//
-	//	
-	//	successArr.push(index);
-	//
-	//}
 	
 	/** Running conditions */
 	// params: condition (0,1,2)
