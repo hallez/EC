@@ -63,16 +63,15 @@
 				}
 			}
 			boxwidth = leftspan.width() + rightspan.width() + 50;
-			boxheight = leftspan.height() + rightspan.height() + 100;
+			boxheight = leftspan.height() + rightspan.height();
 		}
 		
 		var position = randomPos(boxwidth, boxheight);
 		var newPos = new Object();
-			newPos.left = position.x;
-			newPos.top = position.y;
+			newPos.left = position.x < 0 ? 0 : position.x;
+			newPos.top = position.y < 0 ? 0 : position.y;
 			stimbox.offset(newPos).css("display", "none"); // if word goes off of window, set right to window width
-
-		
+				
 		successArr.push(index);
 
 	}
