@@ -4,29 +4,28 @@ body {
     background-color: white;
     color: black;
     font-weight: 300;
-    width: 600px;
-    height: 600px;
+    width: 100%;
+    height: 100%;
 }
 
 #wrapper {
-    text-align: center;
     padding:20px;
     width: 600px;
     height: 600px;
 }
 
-#cs {
-    float: left;
-    width: 50%;
-    height: 100%;
-
+.stimbox{
+    
 }
 
-#us{
-    float: right;
-    width: 50%;
-    height: 100%;
+.left {
+    padding: 10px;
 }
+
+.right {
+    padding: 10px;
+}
+
 
 img {
     width: 200px;
