@@ -1,14 +1,62 @@
+/*
+ * Requires:
+ *     psiturk.js
+ *     utils.js
+ */
 
-	/** Load a pair or single stimulus */
-	// left = word on left
-	// right = word on right (may be null)
-	// position = position relative to viewport
+// Initalize psiturk object
+var psiTurk = PsiTurk(uniqueId, adServerLoc);
+
+var mycondition = Math.random() > .5 ? 1 : 2;  // these two variables are passed by the psiturk server process
+var mycounterbalance = counterbalance;  // they tell you which condition you have been assigned to
+// they are not used in the stroop code but may be useful to you
+
+// All pages to be loaded
+var pages = [
+	"instructions/instruct-1.html",
+	"instructions/instruct-2.html",
+	"instructions/instruct-3.html",
+	"instructions/instruct-ready.html",
+	"stage.html",
+	"postquestionnaire.html"
+];
+
+psiTurk.preloadPages(pages);
+
+var instructionPages = [ // add as a list as many pages as you like
+	"instructions/instruct-1.html",
+	"instructions/instruct-2.html",
+	"instructions/instruct-3.html",
+	"instructions/instruct-ready.html"
+];
+
+
+/********************
+* HTML manipulation
+*
+* All HTML files in the templates directory are requested 
+* from the server when the PsiTurk object is created above. We
+* need code to get those pages from the PsiTurk object and 
+* insert them into the document.
+*
+********************/
+
+/********************
+* EC TEST       *
+********************/
+var SurveillanceTask = function(mycondition) {
 	
-	successArr = [];
 	
-	function loadTrial(index, blocktype, word1, cat1, word2, cat2){
+	var wordon, // time word is presented
+	    listening = false;
+	var successArr = [];
+	
+	var loadTrial = function(index, blocktype, word1, cat1, word2, cat2, isTargetBool){
 		var wrapper_label = blocktype+"_"+index;
 		var stimbox = $("<div></div>").addClass("stimBox "+wrapper_label);
+		if (isTargetBool) {
+			stimbox.addClass("target");
+		}
 		$("#wrapper").append(stimbox);
 		var boxwidth = 0;
 		var boxheight = 0;
@@ -74,7 +122,7 @@
 					rightspan.text(rightword).css("fontSize", rightsize);
 				}
 			}
-			boxwidth = leftspan.width() + rightspan.width() + 50;
+			boxwidth = leftspan.width() + rightspan.width();
 			boxheight = leftspan.height() + rightspan.height();
 		}
 		
@@ -86,18 +134,9 @@
 				
 		successArr.push(index);
 
-	}
+	};
 	
-	/** Running conditions */
-	// params: condition (0,1,2)
-	// CSpos; // cond1: walking, cond2: hearing
-	// CSneut; // cond1: hearing, cond2: walking
-	
-	// 1. copy lists into local vars
-	// 2. randomize lists
-	// 3. preset random coords
-	// 4. set onKeyDown listeners
-	function runPractice(cond){
+	var runPractice = function(cond){
 		us_pos_list = US_POS_LIST.slice(0);
 		us_neut_list = US_NEUT_LIST.slice(0);
 		ns_list = NS_LIST.slice(0);
@@ -105,9 +144,9 @@
 		CSPosCount = 2;
 		CSNeutCount = 2;
 		
-	}
+	};
 	
-	function runCondition(cond){
+	var runCondition = function(cond){
 		CSPos = cond == 1 ? "walking" : "hearing";
 		CSNeut = cond == 1 ? "hearing" : "walking";
 		
@@ -181,24 +220,24 @@
 				var pos = Math.floor(Math.random() * us_pos_list.length);
 				var usPosStim = us_pos_list[pos];
 				us_pos_list.splice(pos1, 1);
-				StimOrder[i] = new TrialItem(CSPos, "CS", usPosStim, "US");
+				StimOrder[i] = new TrialItem(CSPos, "CS", usPosStim, "US", false);
 				break;
 			case CS_NEUT_PAIR:
 				var pos = Math.floor(Math.random() * us_neut_list.length);
 				var usNeutStim = us_neut_list[pos];
 				us_neut_list.splice(pos, 1);
-				StimOrder[i] = new TrialItem(CSNeut, "CS", usNeutStim, "US");
+				StimOrder[i] = new TrialItem(CSNeut, "CS", usNeutStim, "US", false);
 				break;
 			case BLANK:
 				StimOrder[i] = new TrialItem();
 				break;
 			case DISP_TARGET:
 				if (Math.random() < .5) {
-					StimOrder[i] = new TrialItem(TARGET, "target");
+					StimOrder[i] = new TrialItem(TARGET, "target", null, null, true);
 				}else{
 					var pos = Math.floor(Math.random() * ns_list.length);
 					var nsStim = ns_list[pos];
-					StimOrder[i] = new TrialItem(TARGET, "target", nsStim, "NS");
+					StimOrder[i] = new TrialItem(TARGET, "target", nsStim, "NS", true);
 				}
 				break;
 			case NS_NS_PAIR:
@@ -209,7 +248,7 @@
 					pos2 = Math.floor(Math.random() * ns_list.length);
 				}
 				var nsStim2 = ns_list[pos2];
-				StimOrder[i] = new TrialItem(nsStim1, "NS", nsStim2, "NS");
+				StimOrder[i] = new TrialItem(nsStim1, "NS", nsStim2, "NS", false);
 				break;
 			case US_NS_POS_PAIR:
 				var pos1 = Math.floor(Math.random() * us_pos_list.length);
@@ -220,7 +259,7 @@
 				if (Math.random() < .5) {
 					StimOrder[i] = new TrialItem(usPosStim, "US");
 				}else{
-				StimOrder[i] = new TrialItem(usPosStim, "US", nsStim2, "NS");
+				StimOrder[i] = new TrialItem(usPosStim, "US", nsStim2, "NS", false);
 				}
 				break;
 			case US_NS_NEUT_PAIR:
@@ -232,7 +271,7 @@
 				if (Math.random() < .5) {
 					StimOrder[i] = new TrialItem(usNeutStim, "US");
 				}else{
-				StimOrder[i] = new TrialItem(usNeutStim, "US", nsStim2, "NS");
+				StimOrder[i] = new TrialItem(usNeutStim, "US", nsStim2, "NS", false);
 				}
 				break;
 		}
@@ -243,27 +282,154 @@
 	for (var i = 0; i < StimOrder.length; i++){
 		var trial = StimOrder[i];
 		var block_type = "C"+cond;
-		loadTrial(i, block_type, trial.stim1, trial.cat1, trial.stim2, trial.cat2);
+		loadTrial(i, block_type, trial.stim1, trial.cat1, trial.stim2, trial.cat2, trial.isTarget);
 	}
 	
+	var k = 0;
+		trial_label = "";
+		hasTarget = false;
+		response ="";
+		
+		setInterval(function(){
+			if (response.length>0) {
+				var rt = new Date().getTime() - wordon;
+
+				psiTurk.recordTrialData({'phase':"TEST",
+                                     'trial':trial_label,
+                                     'response':response,
+                                     'rt':rt});
+				//alert("rt:"+rt+", trial_label:"+trial_label+", response:"+response);
+			}
+			if (k > StimOrder.length) {
+				finish();
+			}else{
+				trial_label = ".C"+cond+"_"+k;
+				$(".stimBox").css("display", "none");
+				$(trial_label).css("display","block");
+				wordon = new Date().getTime();
+				hasTarget = $(trial_label).hasClass("target");
+				response = hasTarget ? "M" : "CR" ;
+				//alert(response);
+				listening = true;
+				k++;
+			}
+		
+		}, TIME_INT);
 	
-	k = 0;
-	setInterval(function(){
-		var wrapper_label = ".C"+cond+"_"+k;
-		$(".stimBox").css("display", "none");
-		$(wrapper_label).css("display","block");
-		k++;
+	};
+
+	var response_handler = function(e) {
+		if (!listening) return;
+
+		var keyCode = e.keyCode;
+
+		switch (keyCode) {
+			case 32:
+				response = hasTarget ? "H" : "FA" ;
+				//alert(response + " " + trial_label);
+				break;
+			default:
+				break;
+
+		}
+		if (response.length>0) {
+			listening = false;
+//			var rt = new Date().getTime() - wordon;
+//
+//			psiTurk.recordTrialData({'phase':"TEST",
+//                                     'trial':trial_label,
+//                                     'response':response,
+//                                     'rt':rt}
+                                   //);
+		}
+	};
+
+	var finish = function() {
+	    $("body").unbind("keydown", response_handler); // Unbind keys
+	    currentview = new Questionnaire();
+	};
+
 	
-	}, TIME_INT);
+	// Load the stage.html snippet into the body of the page
+	psiTurk.showPage('stage.html');
+	// Register the response handler that is defined above to handle any
+	// key down events.
+	$("body").focus().keydown(response_handler); 
 
-	}
+	// Start the test
+	runCondition(mycondition);
+	alert(StimOrder);
+		
+	};
 
 
-$(document).ready(function(){
+
+/****************
+* Questionnaire *
+****************/
+
+var Questionnaire = function() {
+
+	var error_message = "<h1>Oops!</h1><p>Something went wrong submitting your HIT. This might happen if you lose your internet connection. Press the button to resubmit.</p><button id='resubmit'>Resubmit</button>";
+
+	record_responses = function() {
+
+		psiTurk.recordTrialData({'phase':'postquestionnaire', 'status':'submit'});
+
+		$('textarea').each( function(i, val) {
+			psiTurk.recordUnstructuredData(this.id, this.value);
+		});
+		$('select').each( function(i, val) {
+			psiTurk.recordUnstructuredData(this.id, this.value);		
+		});
+
+	};
+
+	prompt_resubmit = function() {
+		replaceBody(error_message);
+		$("#resubmit").click(resubmit);
+	};
+
+	resubmit = function() {
+		replaceBody("<h1>Trying to resubmit...</h1>");
+		reprompt = setTimeout(prompt_resubmit, 10000);
+		
+		psiTurk.saveData({
+			success: function() {
+			    clearInterval(reprompt); 
+                psiTurk.computeBonus('compute_bonus', function(){finish()}); 
+			}, 
+			error: prompt_resubmit
+		});
+	};
+
+	// Load the questionnaire snippet 
+	psiTurk.showPage('postquestionnaire.html');
+	psiTurk.recordTrialData({'phase':'postquestionnaire', 'status':'begin'});
 	
-// MAIN //
-runCondition(1);
-alert(StimOrder);
+	$("#next").click(function () {
+	    record_responses();
+	    psiTurk.saveData({
+            success: function(){
+                psiTurk.computeBonus('compute_bonus', function() { 
+                	psiTurk.completeHIT(); // when finished saving compute bonus, the quit
+                }); 
+            }, 
+            error: prompt_resubmit});
+	});
+    
+	
+};
 
+// Task object to keep track of the current phase
+var currentview;
+
+/*******************
+ * Run Task
+ ******************/
+$(window).load( function(){
+    psiTurk.doInstructions(
+    	instructionPages, // a list of pages you want to display in sequence
+    	function() { currentview = new SurveillanceTask(mycondition); } // what you want to do when you are done with instructions
+    );
 });
-

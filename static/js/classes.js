@@ -15,9 +15,10 @@ function SizePair(large, small){
 
 /** Trial Item */
 // single or pair of stimuli
-function TrialItem(stim1, cat1, stim2, cat2) {
+function TrialItem(stim1, cat1, stim2, cat2, bool) {
     this.stim1 = stim1;
     this.stim2 = stim2;
     this.cat1 = cat1;
     this.cat2 = cat2;
+    this.isTarget = bool;
 }
