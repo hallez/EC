@@ -1,7 +1,7 @@
 	
 	// recursive function, get 10 numbers between 1..20 that add up to remainder trials (NSPairCountSum)
 	// pre: NSCountArray is an array of integers
-	function calcNSPairs(NSCountArray, NSPairCountSum) {
+	function calcNSPairs(NSCountArray, NSPairCountSum, max) {
 		var total = 0;
 		$.each(NSCountArray,function() {
 		    total += this;
@@ -11,7 +11,7 @@
 		}else{
 		
 		var addPos = Math.floor(Math.random() * (NSCountArray.length - 1));
-		if (NSCountArray[addPos] < 20) {
+		if (NSCountArray[addPos] < max) {
 			NSCountArray[addPos]++;
 		}
 		return calcNSPairs(NSCountArray, NSPairCountSum);

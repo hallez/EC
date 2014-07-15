@@ -46,6 +46,10 @@ var instructionPages = [ // add as a list as many pages as you like
 ********************/
 var SurveillanceTask = function(mycondition) {
 	
+	var d = new Date();
+	var startDate = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate() + "-" + d.getHours() + "-" + d.getMinutes() + "-" + d.getSeconds();
+    
+	psiTurk.recordUnstructuredData({'ID': uniqueId, 'condition':mycondition, 'date':startDate});
 	
 	var wordon, // time word is presented
 	    listening = false;
@@ -146,30 +150,53 @@ var SurveillanceTask = function(mycondition) {
 		
 	};
 	
-	var runCondition = function(cond){
+	var runCondition = function(cond, block){
 		CSPos = cond == 1 ? "walking" : "hearing";
 		CSNeut = cond == 1 ? "hearing" : "walking";
 		
-		//runPractice(cond);
+		if (cond == 0) {
+			us_pos_list = US_POS_LIST.slice(0);
+			us_neut_list = US_NEUT_LIST.slice(0);
+			ns_list = NS_LIST.slice(0);
+			targetCount = 2; // may not be necessary
+			CSPosCount = 2;
+			CSNeutCount = 2;
+			//CHANGE FROM HERE
+			totalTrialCount = Math.floor(Math.random() * (100 - 90) + 1) + 90; // 90..100
+			blankCount = Math.floor(totalTrialCount * PERCENT_BLANK);
+			USNSposCount = US_POS_LIST.length - CSPosCount;
+			USNSneutCount = US_NEUT_LIST.length - CSNeutCount;
+			NSPairCountSum = totalTrialCount - (targetCount + CSPosCount + CSNeutCount + blankCount + USNSposCount + USNSneutCount);
+			NSPairCountArray = []; // recursive function, get 10 numbers between 1..20 that add up to remainder trials (NSPairCountSum)
+			
+			for (i = 0; i < CSPosCount + CSNeutCount; i++){
+				NSPairCountArray.push(2);
+			}
+			
+			NSPairCountArray = calcNSPairs(NSPairCountArray, NSPairCountSum, 6);
+			
+		}else{
 		
-		us_pos_list = US_POS_LIST.slice(0);
-		us_neut_list = US_NEUT_LIST.slice(0);
-		ns_list = NS_LIST.slice(0);
-		targetCount = 10;
-		CSPosCount = 5; // CSpos USpos
-		CSNeutCount = 5; // CSneut USneut
-		totalTrialCount = Math.floor(Math.random() * (100 - 90) + 1) + 90; // 90..100
-		blankCount = Math.floor(totalTrialCount * PERCENT_BLANK);
-		USNSposCount = US_POS_LIST.length - CSPosCount;
-		USNSneutCount = US_NEUT_LIST.length - CSNeutCount;
-		NSPairCountSum = totalTrialCount - (targetCount + CSPosCount + CSNeutCount + blankCount + USNSposCount + USNSneutCount);
-		NSPairCountArray = []; // recursive function, get 10 numbers between 1..20 that add up to remainder trials (NSPairCountSum)
+			us_pos_list = US_POS_LIST.slice(0);
+			us_neut_list = US_NEUT_LIST.slice(0);
+			ns_list = NS_LIST.slice(0);
+			targetCount = 10;
+			CSPosCount = 5; // CSpos USpos
+			CSNeutCount = 5; // CSneut USneut
+			totalTrialCount = Math.floor(Math.random() * (100 - 90) + 1) + 90; // 90..100
+			blankCount = Math.floor(totalTrialCount * PERCENT_BLANK);
+			USNSposCount = US_POS_LIST.length - CSPosCount;
+			USNSneutCount = US_NEUT_LIST.length - CSNeutCount;
+			NSPairCountSum = totalTrialCount - (targetCount + CSPosCount + CSNeutCount + blankCount + USNSposCount + USNSneutCount);
+			NSPairCountArray = []; // recursive function, get 10 numbers between 1..20 that add up to remainder trials (NSPairCountSum)
 		
-		for (i = 0; i < CSPosCount + CSNeutCount; i++){
-			NSPairCountArray.push(1);
+			for (i = 0; i < CSPosCount + CSNeutCount; i++){
+				NSPairCountArray.push(1);
+			}
+		
+			NSPairCountArray = calcNSPairs(NSPairCountArray, NSPairCountSum, 20);
 		}
 		
-		NSPairCountArray = calcNSPairs(NSPairCountArray, NSPairCountSum);
 		
 		// Set stim order
 		StimOrder = [];
@@ -281,7 +308,7 @@ var SurveillanceTask = function(mycondition) {
 	
 	for (var i = 0; i < StimOrder.length; i++){
 		var trial = StimOrder[i];
-		var block_type = "C"+cond;
+		var block_type = "B"+block;
 		loadTrial(i, block_type, trial.stim1, trial.cat1, trial.stim2, trial.cat2, trial.isTarget);
 	}
 	
@@ -303,7 +330,7 @@ var SurveillanceTask = function(mycondition) {
 			if (k > StimOrder.length) {
 				finish();
 			}else{
-				trial_label = ".C"+cond+"_"+k;
+				trial_label = ".B"+block+"_"+k;
 				$(".stimBox").css("display", "none");
 				$(trial_label).css("display","block");
 				wordon = new Date().getTime();
@@ -336,7 +363,7 @@ var SurveillanceTask = function(mycondition) {
 			listening = false;
 //			var rt = new Date().getTime() - wordon;
 //
-//			psiTurk.recordTrialData({'phase':"TEST",
+//			psiTurk.recordTrialDhoata({'phase':"TEST",
 //                                     'trial':trial_label,
 //                                     'response':response,
 //                                     'rt':rt}
@@ -357,7 +384,9 @@ var SurveillanceTask = function(mycondition) {
 	$("body").focus().keydown(response_handler); 
 
 	// Start the test
-	runCondition(mycondition);
+	runCondition(mycondition, 0);
+	runCondition(mycondition, 1);
+	runCondition(mycondition, 2);
 	alert(StimOrder);
 		
 	};
