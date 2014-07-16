@@ -122,3 +122,16 @@ strong {
     width: 600px;
     height: 600px;
 }
+
+li {
+    display:inline
+}
+
+input {
+    padding: 15px;
+}
+
+textarea {
+    resize: none;
+    overflow: hidden;
+}

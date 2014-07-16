@@ -1,0 +1,49 @@
+<div id="container-questionnaire">
+    <h1>Task Complete</h1>
+
+    <hr>
+
+    <p>You are finished!  Thank you for your contributions to science. You will be eligible for full payment once you answer the following questions.</p>
+
+    <div class="instructions well">
+
+        <form id="postquiz" action="debrief" method="post">
+
+
+            <!-- beginning of a question -->
+            <div class="row question">
+                <div class="col-md-8">
+                    For some participants, during the first task, there was one item that always appeared with positive images and words and one that always appeared with neutral images and words, do you think it happened in your case?
+                </div>
+                <div class="col-md-4">
+                    <select id="manipulation" name="manipulation">
+                        <option value="no" SELECTED>No, I did not notice if that happened in my task </option>
+                        <option value="yes">Yes, that happened in my task.</option>
+                    </select>
+                </div>
+            </div>
+            <!-- end of a question -->
+
+
+
+        </form>
+    </div>
+
+    <hr>
+
+    <div class="instructionsnav">
+        <div class="row">
+            <div class="col-xs-2">
+            </div>
+            <div class="col-xs-7">
+            </div>
+            <div class="col-xs-3">
+                <button type="button" id="next" value="next" class="btn btn-primary btn-lg continue">
+                    Continue <span class="glyphicon glyphicon-arrow-right"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+</div>

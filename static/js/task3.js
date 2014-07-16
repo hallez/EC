@@ -18,8 +18,13 @@ var pages = [
 	"instructions/instruct-3.html",
 	"instructions/instruct-ready.html",
 	"stage.html",
-	"attitudemeasure.html",
-	"postquestionnaire.html"
+	"attitude.html",
+	"manipulation.html",
+	"contingency.html",
+	"perceiveduse.html",
+	"perceivedcomp.html",
+	"postquestionnaire1.html",
+	"postquestionnaire2.html"
 ];
 
 psiTurk.preloadPages(pages);
@@ -422,7 +427,6 @@ var SurveillanceTask = function(mycondition) {
 
 var AttitudeMeasure = function(csPos, csNeut) {
 	
-	    var listening = false;
 
 	// Stimuli for a basic Stroop experiment
 	var stims = [
@@ -443,74 +447,13 @@ var AttitudeMeasure = function(csPos, csNeut) {
 		else {
 			stim = stims.shift();
 			show_word( stim[0] );
-			listening = true;
-			d3.select("#query").html('<p id="prompt">Type a number between 0 and 8.</p>');
 		}
 	};
 	
-	var response_handler = function(e) {
-		if (!listening) return;
-
-		var keyCode = e.keyCode,
-			attitude;
-
-		switch (keyCode) {
-			case 48:
-				// "R"
-				attitude="0";
-				break;
-			case 49:
-				// "G"
-				attitude="1";
-				break;
-			case 50:
-				// "B"
-				attitude="2";
-				break;
-			case 51:
-				// "R"
-				attitude="3";
-				break;
-			case 52:
-				// "G"
-				attitude="4";
-				break;
-			case 53:
-				// "B"
-				attitude="5";
-				break;
-			case 54:
-				// "R"
-				attitude="6";
-				break;
-			case 55:
-				// "G"
-				attitude="7";
-				break;
-			case 56:
-				// "B"
-				attitude="8";
-				break;
-			default:
-				attitude = "";
-				break;
-		}
-		if (attitude.length>0) {
-			listening = false;
-
-			psiTurk.recordTrialData({'phase':"attitude_measure",
-                                     'word':stim[0],
-                                     'type':stim[1],
-                                     'attitude':attitude}
-                                   );
-			remove_word();
-			next();
-		}
-	};
 
 	var finish = function() {
-	    $("body").unbind("keydown", response_handler); // Unbind keys
-	    currentview = new Questionnaire();
+	     psiTurk.recordTrialData({'phase':'attitude', 'status':'submit'});
+	    currentview = new ManipulationCheck();
 	};
 	
 	var show_word = function(text) {
@@ -527,32 +470,45 @@ var AttitudeMeasure = function(csPos, csNeut) {
 	var remove_word = function() {
 		d3.select("#word").remove();
 	};
+	
+	var record_responses = function() {
 
+		$('input').each( function(i, val) {
+			if (this.checked == true) {
+				psiTurk.recordUnstructuredData(stim[1], stim[0], this.name, this.value);		
+
+			}
+		});
+
+	};
+	
 	
 	// Load the stage.html snippet into the body of the page
-	psiTurk.showPage('attitudemeasure.html');
+	psiTurk.showPage('attitude.html');
 
-	// Register the response handler that is defined above to handle any
-	// key down events.
-	$("body").focus().keydown(response_handler); 
-
-	// Start the test
+	// Show first word
 	next();
+	
+	$("#next").click(function () {
+	    record_responses();
+	    remove_word();
+	    next();
+	    
+	});
 	
 };
 
 
-/****************
-* Questionnaire *
-****************/
+/**************
+ * Manipulation Check *
+ * *************/
 
-var Questionnaire = function() {
-
+var ManipulationCheck = function(){
 	var error_message = "<h1>Oops!</h1><p>Something went wrong submitting your HIT. This might happen if you lose your internet connection. Press the button to resubmit.</p><button id='resubmit'>Resubmit</button>";
 
-	record_responses = function() {
+	var record_responses = function() {
 
-		psiTurk.recordTrialData({'phase':'postquestionnaire', 'status':'submit'});
+		psiTurk.recordTrialData({'phase':'manipulation', 'status':'submit'});
 
 		$('textarea').each( function(i, val) {
 			psiTurk.recordUnstructuredData(this.id, this.value);
@@ -582,8 +538,378 @@ var Questionnaire = function() {
 	};
 
 	// Load the questionnaire snippet 
-	psiTurk.showPage('postquestionnaire.html');
-	psiTurk.recordTrialData({'phase':'postquestionnaire', 'status':'begin'});
+	psiTurk.showPage('manipulation.html');
+	psiTurk.recordTrialData({'phase':'manipulation', 'status':'begin'});
+	
+	$("#next").click(function () {
+	    record_responses();
+	    currentview = new ContingencyMemory();
+	});
+};
+
+/***************
+ *Contingency Memory *
+ ****************/
+
+var ContingencyMemory = function() {
+	var error_message = "<h1>Oops!</h1><p>Something went wrong submitting your HIT. This might happen if you lose your internet connection. Press the button to resubmit.</p><button id='resubmit'>Resubmit</button>";
+
+	
+	var record_responses = function() {
+
+		psiTurk.recordTrialData({'phase':'contingency', 'status':'submit'});
+
+		$('textarea').each( function(i, val) {
+			psiTurk.recordUnstructuredData(this.id, this.value);
+		});
+		$('select').each( function(i, val) {
+			if (this.id == 'contingency_positive') {
+				var score = mycondition == 1 ? this.value : (parseInt(this.value) * -1) + "";
+				psiTurk.recordUnstructuredData(this.id, score);
+			} else if (this.id == 'contingency_neutral') {
+				var score = mycondition == 2 ? this.value : (parseInt(this.value) * -1) + "";
+				psiTurk.recordUnstructuredData(this.id, score);	
+			}	
+		});
+
+	};
+
+	prompt_resubmit = function() {
+		replaceBody(error_message);
+		$("#resubmit").click(resubmit);
+	};
+
+	resubmit = function() {
+		replaceBody("<h1>Trying to resubmit...</h1>");
+		reprompt = setTimeout(prompt_resubmit, 10000);
+		
+		psiTurk.saveData({
+			success: function() {
+			    clearInterval(reprompt); 
+                 
+			}, 
+			error: prompt_resubmit
+		});
+	};
+
+	// Load the questionnaire snippet 
+	psiTurk.showPage('contingency.html');
+	psiTurk.recordTrialData({'phase':'contingency', 'status':'begin'});
+	
+	$("#next").click(function () {
+	     record_responses();
+	    currentview = new PerceivedUse();
+	});
+};
+
+/****************
+ * Perceived Use *
+ * **************/
+
+var PerceivedUse = function() {
+		var error_message = "<h1>Oops!</h1><p>Something went wrong submitting your HIT. This might happen if you lose your internet connection. Press the button to resubmit.</p><button id='resubmit'>Resubmit</button>";
+
+	
+	var record_responses = function() {
+
+		psiTurk.recordTrialData({'phase':'perceived_use', 'status':'submit'});
+
+		$('textarea').each( function(i, val) {
+			psiTurk.recordUnstructuredData(this.id, this.value);
+		});
+		$('select').each( function(i, val) {
+			psiTurk.recordUnstructuredData(this.id, this.value);		
+		});
+
+	};
+
+	prompt_resubmit = function() {
+		replaceBody(error_message);
+		$("#resubmit").click(resubmit);
+	};
+
+	resubmit = function() {
+		replaceBody("<h1>Trying to resubmit...</h1>");
+		reprompt = setTimeout(prompt_resubmit, 10000);
+		
+		psiTurk.saveData({
+			success: function() {
+			    clearInterval(reprompt); 
+                 
+			}, 
+			error: prompt_resubmit
+		});
+	};
+
+	// Load the questionnaire snippet 
+	psiTurk.showPage('perceiveduse.html');
+	psiTurk.recordTrialData({'phase':'perceived_use', 'status':'begin'});
+	
+	$("#next").click(function () {
+	     record_responses();
+	    currentview = new PerceivedCompliance();
+	});
+};
+
+/****************
+ * Perceived Compliance *
+ * **************/
+
+var PerceivedCompliance = function() {
+		var error_message = "<h1>Oops!</h1><p>Something went wrong submitting your HIT. This might happen if you lose your internet connection. Press the button to resubmit.</p><button id='resubmit'>Resubmit</button>";
+
+	
+	var record_responses = function() {
+
+		psiTurk.recordTrialData({'phase':'perceived_comp', 'status':'submit'});
+
+		$('textarea').each( function(i, val) {
+			psiTurk.recordUnstructuredData(this.id, this.value);
+		});
+		$('select').each( function(i, val) {
+			psiTurk.recordUnstructuredData(this.id, this.value);		
+		});
+
+	};
+
+	prompt_resubmit = function() {
+		replaceBody(error_message);
+		$("#resubmit").click(resubmit);
+	};
+
+	resubmit = function() {
+		replaceBody("<h1>Trying to resubmit...</h1>");
+		reprompt = setTimeout(prompt_resubmit, 10000);
+		
+		psiTurk.saveData({
+			success: function() {
+			    clearInterval(reprompt); 
+                 
+			}, 
+			error: prompt_resubmit
+		});
+	};
+
+	// Load the questionnaire snippet 
+	psiTurk.showPage('perceivedcomp.html');
+	psiTurk.recordTrialData({'phase':'perceived_comp', 'status':'begin'});
+	
+	$("#next").click(function () {
+	     record_responses();
+	    currentview = new Questionnaire1();
+	});
+};
+
+/****************
+* Questionnaire 1 *
+****************/
+
+var Questionnaire1 = function() {
+		var error_message = "<h1>Oops!</h1><p>Something went wrong submitting your HIT. This might happen if you lose your internet connection. Press the button to resubmit.</p><button id='resubmit'>Resubmit</button>";
+
+	
+	var record_responses = function() {
+
+		psiTurk.recordTrialData({'phase':'postquestionnaire1', 'status':'submit'});
+
+		$('textarea').each( function(i, val) {
+			psiTurk.recordUnstructuredData(this.id, this.value);
+		});
+		$('select').each( function(i, val) {
+			psiTurk.recordUnstructuredData(this.id, this.value);		
+		});
+		$('input').each( function(i, val) {
+			if (this.checked == true) {
+				psiTurk.recordUnstructuredData(this.name, this.value);		
+			}
+		});
+
+	};
+
+	prompt_resubmit = function() {
+		replaceBody(error_message);
+		$("#resubmit").click(resubmit);
+	};
+
+	resubmit = function() {
+		replaceBody("<h1>Trying to resubmit...</h1>");
+		reprompt = setTimeout(prompt_resubmit, 10000);
+		
+		psiTurk.saveData({
+			success: function() {
+			    clearInterval(reprompt); 
+                 
+			}, 
+			error: prompt_resubmit
+		});
+	};
+
+	// Load the questionnaire snippet 
+	psiTurk.showPage('postquestionnaire1.html');
+	psiTurk.recordTrialData({'phase':'postquestionnaire1', 'status':'begin'});
+	
+	$("#next").click(function () {
+	     record_responses();
+	    currentview = new Questionnaire2();
+	});
+};
+
+/****************
+* Questionnaire 2 *
+****************/
+
+var Questionnaire2 = function() {
+		var error_message = "<h1>Oops!</h1><p>Something went wrong submitting your HIT. This might happen if you lose your internet connection. Press the button to resubmit.</p><button id='resubmit'>Resubmit</button>";
+
+	
+	var record_responses = function() {
+
+		psiTurk.recordTrialData({'phase':'postquestionnaire2', 'status':'submit'});
+
+		$('textarea').each( function(i, val) {
+			psiTurk.recordUnstructuredData(this.id, this.value);
+		});
+		$('select').each( function(i, val) {
+			psiTurk.recordUnstructuredData(this.id, this.value);		
+		});
+		$('input').each( function(i, val) {
+			if (this.checked == true) {
+				psiTurk.recordUnstructuredData(this.name, this.value);		
+			}
+		});
+
+	};
+
+	prompt_resubmit = function() {
+		replaceBody(error_message);
+		$("#resubmit").click(resubmit);
+	};
+
+	resubmit = function() {
+		replaceBody("<h1>Trying to resubmit...</h1>");
+		reprompt = setTimeout(prompt_resubmit, 10000);
+		
+		psiTurk.saveData({
+			success: function() {
+			    clearInterval(reprompt); 
+                 
+			}, 
+			error: prompt_resubmit
+		});
+	};
+
+	// Load the questionnaire snippet 
+	psiTurk.showPage('postquestionnaire2.html');
+	psiTurk.recordTrialData({'phase':'postquestionnaire2', 'status':'begin'});
+	
+	$("#next").click(function () {
+	     record_responses();
+	    currentview = new Questionnaire3();
+	});
+};
+
+
+/****************
+* Questionnaire 3 *
+****************/
+
+var Questionnaire3 = function() {
+		var error_message = "<h1>Oops!</h1><p>Something went wrong submitting your HIT. This might happen if you lose your internet connection. Press the button to resubmit.</p><button id='resubmit'>Resubmit</button>";
+
+	
+	var record_responses = function() {
+
+		psiTurk.recordTrialData({'phase':'postquestionnaire3', 'status':'submit'});
+
+		$('textarea').each( function(i, val) {
+			psiTurk.recordUnstructuredData(this.id, this.value);
+		});
+		$('select').each( function(i, val) {
+			psiTurk.recordUnstructuredData(this.id, this.value);		
+		});
+		$('input').each( function(i, val) {
+			if (this.checked == true) {
+				psiTurk.recordUnstructuredData(this.name, this.value);		
+			}
+		});
+
+	};
+
+	prompt_resubmit = function() {
+		replaceBody(error_message);
+		$("#resubmit").click(resubmit);
+	};
+
+	resubmit = function() {
+		replaceBody("<h1>Trying to resubmit...</h1>");
+		reprompt = setTimeout(prompt_resubmit, 10000);
+		
+		psiTurk.saveData({
+			success: function() {
+			    clearInterval(reprompt); 
+                 
+			}, 
+			error: prompt_resubmit
+		});
+	};
+
+	// Load the questionnaire snippet 
+	psiTurk.showPage('postquestionnaire3.html');
+	psiTurk.recordTrialData({'phase':'postquestionnaire3', 'status':'begin'});
+	
+	$("#next").click(function () {
+	     record_responses();
+	    currentview = new Questionnaire4();
+	});
+};
+
+/****************
+* Questionnaire 4 *
+****************/
+
+var Questionnaire4 = function() {
+
+	var error_message = "<h1>Oops!</h1><p>Something went wrong submitting your HIT. This might happen if you lose your internet connection. Press the button to resubmit.</p><button id='resubmit'>Resubmit</button>";
+
+	var record_responses = function() {
+
+		psiTurk.recordTrialData({'phase':'postquestionnaire4', 'status':'submit'});
+
+		$('textarea').each( function(i, val) {
+			psiTurk.recordUnstructuredData(this.id, this.value);
+		});
+		$('select').each( function(i, val) {
+			psiTurk.recordUnstructuredData(this.id, this.value);		
+		});
+		$('input').each( function(i, val) {
+			if (this.checked == true) {
+				psiTurk.recordUnstructuredData(this.name, this.value);		
+			}
+		});
+
+	};
+
+	prompt_resubmit = function() {
+		replaceBody(error_message);
+		$("#resubmit").click(resubmit);
+	};
+
+	resubmit = function() {
+		replaceBody("<h1>Trying to resubmit...</h1>");
+		reprompt = setTimeout(prompt_resubmit, 10000);
+		
+		psiTurk.saveData({
+			success: function() {
+			    clearInterval(reprompt); 
+                 
+			}, 
+			error: prompt_resubmit
+		});
+	};
+
+	// Load the questionnaire snippet 
+	psiTurk.showPage('postquestionnaire4.html');
+	psiTurk.recordTrialData({'phase':'postquestionnaire4', 'status':'begin'});
 	
 	$("#next").click(function () {
 	    record_responses();

@@ -1,0 +1,50 @@
+<div id="container-questionnaire">
+    <h1>Task Complete</h1>
+
+    <hr>
+
+    <p>You are finished!  Thank you for your contributions to science. You will be eligible for full payment once you answer the following questions.</p>
+
+    <div class="instructions well">
+
+        <form id="postquiz" action="debrief" method="post">
+
+
+            <!-- beginning of a question -->
+            <div class="row question">
+                <div class="col-md-8">
+                    When asked how much you like the items, did you intentionally take into account whether the item often appeared with positive or neutral words or images?                </div>
+                <div class="col-md-4">
+                    <select id="perceived_use" name="perceived_use">
+                        <option value="-2" SELECTED>Definitely no</option>
+                        <option value="-1">Probably no</option>
+                        <option value="0">Not sure</option>
+                        <option value="1">Probably yes</option>
+                        <option value="2">Definitely yes</option>
+                    </select>
+                </div>
+            </div>
+            <!-- end of a question -->
+
+
+        </form>
+    </div>
+
+    <hr>
+
+    <div class="instructionsnav">
+        <div class="row">
+            <div class="col-xs-2">
+            </div>
+            <div class="col-xs-7">
+            </div>
+            <div class="col-xs-3">
+                <button type="button" id="next" value="next" class="btn btn-primary btn-lg continue">
+                    Continue <span class="glyphicon glyphicon-arrow-right"></span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+</div>
