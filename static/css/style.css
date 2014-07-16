@@ -55,7 +55,7 @@ strong {
 
 
 /* these are all the same for now, but easy to modify individually */
-#container-ad, #container-error, #container-exp, #container-consent, #container-instructions, #container-questionnaire {
+#container-ad, #container-error, #container-exp, #container-consent, #container-instructions, #container-questionnaire, #container-attitude {
     position: absolute;
     top: 0px; /* Header Height */
     bottom: 0px; /* Footer Height */
@@ -96,11 +96,12 @@ strong {
   line-height: 1.1em;
 }
 
-#trial {
+/*#trial {
   margin: 0 auto;
   width: 800px;
+  padding: 50px;
   text-align: center;
-}
+}*/
 
 #query {
   color: darkgray;

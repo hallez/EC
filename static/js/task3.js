@@ -18,6 +18,7 @@ var pages = [
 	"instructions/instruct-3.html",
 	"instructions/instruct-ready.html",
 	"stage.html",
+	"attitudemeasure.html",
 	"postquestionnaire.html"
 ];
 
@@ -297,7 +298,7 @@ var SurveillanceTask = function(mycondition) {
 				if (Math.random() < .5) {
 					StimOrder[i] = new TrialItem(usNeutStim, "US");
 				}else{
-				StimOrder[i] = new TrialItem(usNeutStim, "US", nsStim2, "NS", false);
+					StimOrder[i] = new TrialItem(usNeutStim, "US", nsStim2, "NS", false);
 				}
 				break;
 		}
@@ -369,6 +370,10 @@ var SurveillanceTask = function(mycondition) {
 				response = hasTarget ? "H" : "FA" ;
 				//alert(response + " " + trial_label);
 				break;
+			case 90: //REMOVE LATER, for developing purposes only
+				finish();
+				//alert(response + " " + trial_label);
+				break;
 			default:
 				break;
 
@@ -389,7 +394,9 @@ var SurveillanceTask = function(mycondition) {
 		clearInterval(trialLoop);
 	    $("body").unbind("keydown", response_handler); // Unbind keys
 	    $("#wrapper").empty();
-	    currentview = new Questionnaire();
+	    var csPos = mycondition == 1 ? "walking" : "hearing";
+	    var csNeut = mycondition == 1 ? "hearing" : "walking";
+	    currentview = new AttitudeMeasure(csPos, csNeut);
 	};
 	
 	var nextBlock = function(blocknum) {
@@ -408,6 +415,131 @@ var SurveillanceTask = function(mycondition) {
 	runCondition(mycondition, 0);		
 	};
 
+
+/****************
+ * Attitude Measure *
+ * ***************/
+
+var AttitudeMeasure = function(csPos, csNeut) {
+	
+	    var listening = false;
+
+	// Stimuli for a basic Stroop experiment
+	var stims = [
+			[csPos, "CSpos"],
+			[csNeut, "CSneut"],
+			[TARGET, "target"],
+			["window", "USneut1"],
+			["door", "USneut2"],
+			["room", "USneut3"],
+		];
+
+	stims = _.shuffle(stims);
+
+	var next = function() {
+		if (stims.length===0) {
+			finish();
+		}
+		else {
+			stim = stims.shift();
+			show_word( stim[0] );
+			listening = true;
+			d3.select("#query").html('<p id="prompt">Type a number between 0 and 8.</p>');
+		}
+	};
+	
+	var response_handler = function(e) {
+		if (!listening) return;
+
+		var keyCode = e.keyCode,
+			attitude;
+
+		switch (keyCode) {
+			case 48:
+				// "R"
+				attitude="0";
+				break;
+			case 49:
+				// "G"
+				attitude="1";
+				break;
+			case 50:
+				// "B"
+				attitude="2";
+				break;
+			case 51:
+				// "R"
+				attitude="3";
+				break;
+			case 52:
+				// "G"
+				attitude="4";
+				break;
+			case 53:
+				// "B"
+				attitude="5";
+				break;
+			case 54:
+				// "R"
+				attitude="6";
+				break;
+			case 55:
+				// "G"
+				attitude="7";
+				break;
+			case 56:
+				// "B"
+				attitude="8";
+				break;
+			default:
+				attitude = "";
+				break;
+		}
+		if (attitude.length>0) {
+			listening = false;
+
+			psiTurk.recordTrialData({'phase':"attitude_measure",
+                                     'word':stim[0],
+                                     'type':stim[1],
+                                     'attitude':attitude}
+                                   );
+			remove_word();
+			next();
+		}
+	};
+
+	var finish = function() {
+	    $("body").unbind("keydown", response_handler); // Unbind keys
+	    currentview = new Questionnaire();
+	};
+	
+	var show_word = function(text) {
+		d3.select("#stim")
+			.append("div")
+			.attr("id","word")
+			.style("text-align","center")
+			.style("font-size","60px")
+			.style("font-weight","200")
+			.style("margin","20px")
+			.text(text);
+	};
+
+	var remove_word = function() {
+		d3.select("#word").remove();
+	};
+
+	
+	// Load the stage.html snippet into the body of the page
+	psiTurk.showPage('attitudemeasure.html');
+
+	// Register the response handler that is defined above to handle any
+	// key down events.
+	$("body").focus().keydown(response_handler); 
+
+	// Start the test
+	next();
+	
+};
 
 
 /****************
