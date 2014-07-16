@@ -140,17 +140,7 @@ var SurveillanceTask = function(mycondition) {
 		successArr.push(index);
 
 	};
-	
-	//var runPractice = function(cond){
-	//	us_pos_list = US_POS_LIST.slice(0);
-	//	us_neut_list = US_NEUT_LIST.slice(0);
-	//	ns_list = NS_LIST.slice(0);
-	//	targetCount = 2; // may not be necessary
-	//	CSPosCount = 2;
-	//	CSNeutCount = 2;
-	//	
-	//};
-	
+
 	var runCondition = function(cond, block){
 		
 		$("#stage_inst"+block).css("display", "block");
@@ -245,7 +235,7 @@ var SurveillanceTask = function(mycondition) {
 			
 		}
 		
-		alert(StimOrder + "   number of total trials: "+totalTrialCount+",   number of blanks: "+blankCount+",   number of NSNS: "+NSPairCountSum);
+		//alert(StimOrder + "   number of total trials: "+totalTrialCount+",   number of blanks: "+blankCount+",   number of NSNS: "+NSPairCountSum);
 
 		
 		
@@ -321,7 +311,7 @@ var SurveillanceTask = function(mycondition) {
 		loadTrial(i, block_type, trial.stim1, trial.cat1, trial.stim2, trial.cat2, trial.isTarget);
 	}
 	
-	alert(StimOrder);
+	//alert(StimOrder);
 	
 	
 	$("#begin"+block).click(function(event) {

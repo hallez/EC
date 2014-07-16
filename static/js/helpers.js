@@ -16,7 +16,7 @@
 			
 		}
 		
-		alert(NSCountArray + " --> sum " + NSPairCountSum);
+		//alert(NSCountArray + " --> sum " + NSPairCountSum);
 		return calcNSPairs(NSCountArray, NSPairCountSum, max);
 		}
 	}
