@@ -2043,3 +2043,12 @@ Traceback (most recent call last):
   File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/flask/templating.py", line 64, in get_source
     raise TemplateNotFound(template)
 TemplateNotFound: stage2.html
+2014-07-16 17:13:07,942 /Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/psiturk/psiturk_js/psiturk.js
+2014-07-16 17:13:08,264 /Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/psiturk/psiturk_js/psiturk.js
+2014-07-16 17:13:08,534 /Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/psiturk/psiturk_js/psiturk.js
+2014-07-16 17:13:08,546 /Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/psiturk/psiturk_js/psiturk.js
+2014-07-16 17:13:08,667 /Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/psiturk/psiturk_js/psiturk.js
+2014-07-16 17:13:08,683 /Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/psiturk/psiturk_js/psiturk.js
+2014-07-16 17:13:08,685 /Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/psiturk/psiturk_js/psiturk.js
+2014-07-16 17:13:08,685 /Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/psiturk/psiturk_js/psiturk.js
+2014-07-16 17:13:08,693 /Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/psiturk/psiturk_js/psiturk.js
