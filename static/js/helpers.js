@@ -10,30 +10,21 @@
 			return NSCountArray;
 		}else{
 		
-		var addPos = Math.floor(Math.random() * (NSCountArray.length - 1));
+		var addPos = Math.floor(Math.random() * NSCountArray.length);
 		if (NSCountArray[addPos] < max) {
 			NSCountArray[addPos]++;
+			
 		}
-		return calcNSPairs(NSCountArray, NSPairCountSum);
+		
+		alert(NSCountArray + " --> sum " + NSPairCountSum);
+		return calcNSPairs(NSCountArray, NSPairCountSum, max);
 		}
 	}
 	
-	// get random position random int generating function + offset()
-	// get random coord pair: get screen dimensions, get random number in that range
-	// newPos = new Object();
-	// newPos.left = "randnum1";  // (first in pair)
-	// newPos.top = "randnum2"; // (second in pair)
-	// $("p").offset(newPos);
-	
-	//function randomPos(){
-	//	var x = Math.floor(Math.random() * WINDOW_WIDTH); // MINUS PADDING? ALSO: MINIMUM POS
-	//	var y = Math.floor(Math.random() * WINDOW_HEIGHT); // MINUS PADDING?
-	//	return new Point(x, y);
-	//};
 
 	function randomPos(divwidth, divheight){
 		var x = Math.floor(Math.random() * (WINDOW_WIDTH - divwidth - 100 + 1))+ 30; // MINUS PADDING? ALSO: MINIMUM POS
-		var y = Math.floor(Math.random() * (WINDOW_HEIGHT - 300 - 30 + 1)) + 30; // MINUS PADDING?
+		var y = Math.floor(Math.random() * (WINDOW_HEIGHT - 300 - 100 + 1)) + 100; // MINUS PADDING?
 		return new Point(x, y);
 	}
 	

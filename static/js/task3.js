@@ -46,6 +46,7 @@ var instructionPages = [ // add as a list as many pages as you like
 ********************/
 var SurveillanceTask = function(mycondition) {
 	
+	psiTurk.finishInstructions();
 	var d = new Date();
 	var startDate = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate() + "-" + d.getHours() + "-" + d.getMinutes() + "-" + d.getSeconds();
     
@@ -140,21 +141,29 @@ var SurveillanceTask = function(mycondition) {
 
 	};
 	
-	var runPractice = function(cond){
-		us_pos_list = US_POS_LIST.slice(0);
-		us_neut_list = US_NEUT_LIST.slice(0);
-		ns_list = NS_LIST.slice(0);
-		targetCount = 2; // may not be necessary
-		CSPosCount = 2;
-		CSNeutCount = 2;
-		
-	};
+	//var runPractice = function(cond){
+	//	us_pos_list = US_POS_LIST.slice(0);
+	//	us_neut_list = US_NEUT_LIST.slice(0);
+	//	ns_list = NS_LIST.slice(0);
+	//	targetCount = 2; // may not be necessary
+	//	CSPosCount = 2;
+	//	CSNeutCount = 2;
+	//	
+	//};
 	
 	var runCondition = function(cond, block){
+		
+		$("#stage_inst"+block).css("display", "block");
+		
+		if (block == 0) {
+			
+		}
+		
+		
 		CSPos = cond == 1 ? "walking" : "hearing";
 		CSNeut = cond == 1 ? "hearing" : "walking";
 		
-		if (cond == 0) {
+		if (block == 0) {
 			us_pos_list = US_POS_LIST.slice(0);
 			us_neut_list = US_NEUT_LIST.slice(0);
 			ns_list = NS_LIST.slice(0);
@@ -162,12 +171,12 @@ var SurveillanceTask = function(mycondition) {
 			CSPosCount = 2;
 			CSNeutCount = 2;
 			//CHANGE FROM HERE
-			totalTrialCount = Math.floor(Math.random() * (100 - 90) + 1) + 90; // 90..100
-			blankCount = Math.floor(totalTrialCount * PERCENT_BLANK);
+			blankCount = 0;
 			USNSposCount = US_POS_LIST.length - CSPosCount;
 			USNSneutCount = US_NEUT_LIST.length - CSNeutCount;
-			NSPairCountSum = totalTrialCount - (targetCount + CSPosCount + CSNeutCount + blankCount + USNSposCount + USNSneutCount);
-			NSPairCountArray = []; // recursive function, get 10 numbers between 1..20 that add up to remainder trials (NSPairCountSum)
+			NSPairCountSum = Math.floor(Math.random() * (24 - 8) + 1) + 8;
+			totalTrialCount = targetCount + CSPosCount + CSNeutCount + USNSposCount + USNSneutCount + NSPairCountSum;
+			NSPairCountArray = [];
 			
 			for (i = 0; i < CSPosCount + CSNeutCount; i++){
 				NSPairCountArray.push(2);
@@ -312,12 +321,22 @@ var SurveillanceTask = function(mycondition) {
 		loadTrial(i, block_type, trial.stim1, trial.cat1, trial.stim2, trial.cat2, trial.isTarget);
 	}
 	
-	var k = 0;
+	alert(StimOrder);
+	
+	
+	$("#begin"+block).click(function(event) {
+		$("#stage_inst"+block).remove();
+		runThis();
+	});
+	
+	
+	var runThis = function() {
+		var k = 0;
 		trial_label = "";
 		hasTarget = false;
 		response ="";
 		
-		setInterval(function(){
+		trialLoop = setInterval(function(){
 			if (response.length>0) {
 				var rt = new Date().getTime() - wordon;
 
@@ -328,7 +347,11 @@ var SurveillanceTask = function(mycondition) {
 				//alert("rt:"+rt+", trial_label:"+trial_label+", response:"+response);
 			}
 			if (k > StimOrder.length) {
-				finish();
+				if (block == 2) {
+					finish();
+				} else {
+					nextBlock(block+1);
+				}
 			}else{
 				trial_label = ".B"+block+"_"+k;
 				$(".stimBox").css("display", "none");
@@ -341,7 +364,8 @@ var SurveillanceTask = function(mycondition) {
 				k++;
 			}
 		
-		}, TIME_INT);
+		}, TIME_INT);	
+	};
 	
 	};
 
@@ -372,10 +396,17 @@ var SurveillanceTask = function(mycondition) {
 	};
 
 	var finish = function() {
+		clearInterval(trialLoop);
 	    $("body").unbind("keydown", response_handler); // Unbind keys
+	    $("#wrapper").empty();
 	    currentview = new Questionnaire();
 	};
-
+	
+	var nextBlock = function(blocknum) {
+		clearInterval(trialLoop);
+		$("#wrapper").empty();
+		runCondition(mycondition, blocknum);
+	};
 	
 	// Load the stage.html snippet into the body of the page
 	psiTurk.showPage('stage.html');
@@ -384,11 +415,7 @@ var SurveillanceTask = function(mycondition) {
 	$("body").focus().keydown(response_handler); 
 
 	// Start the test
-	runCondition(mycondition, 0);
-	runCondition(mycondition, 1);
-	runCondition(mycondition, 2);
-	alert(StimOrder);
-		
+	runCondition(mycondition, 0);		
 	};
 
 

@@ -32,3 +32,15 @@ img {
     width: 200px;
     height: 200px;
 }
+
+#stage_inst0 {
+    display: none;
+}
+
+#stage_inst1 {
+    display: none;
+}
+
+#stage_inst2 {
+    display: none;
+}
