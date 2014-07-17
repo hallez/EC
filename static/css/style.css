@@ -135,3 +135,7 @@ textarea {
     resize: none;
     overflow: hidden;
 }
+
+#scale {
+    text-align: center;
+}

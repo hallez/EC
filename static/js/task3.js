@@ -24,7 +24,9 @@ var pages = [
 	"perceiveduse.html",
 	"perceivedcomp.html",
 	"postquestionnaire1.html",
-	"postquestionnaire2.html"
+	"postquestionnaire2.html",
+	"postquestionnaire3.html",
+	"postquestionnaire4.html"
 ];
 
 psiTurk.preloadPages(pages);
