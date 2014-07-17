@@ -19,6 +19,7 @@ var pages = [
 	"instructions/instruct-ready.html",
 	"stage.html",
 	"attitude.html",
+	"carefulcheck.html",
 	"manipulation.html",
 	"contingency.html",
 	"perceiveduse.html",
@@ -455,7 +456,7 @@ var AttitudeMeasure = function(csPos, csNeut) {
 
 	var finish = function() {
 	     psiTurk.recordTrialData({'phase':'attitude', 'status':'submit'});
-	    currentview = new ManipulationCheck();
+	    currentview = new CarefulReadingCheck();
 	};
 	
 	var show_word = function(text) {
@@ -500,6 +501,58 @@ var AttitudeMeasure = function(csPos, csNeut) {
 	
 };
 
+/*************
+ * Careful Reading Check *
+ * ************/
+var CarefulReadingCheck = function() {
+		var error_message = "<h1>Oops!</h1><p>Something went wrong submitting your HIT. This might happen if you lose your internet connection. Press the button to resubmit.</p><button id='resubmit'>Resubmit</button>";
+
+	
+	var record_responses = function() {
+
+		psiTurk.recordTrialData({'phase':'carefulcheck', 'status':'submit'});
+
+		$('textarea').each( function(i, val) {
+			psiTurk.recordUnstructuredData(this.id, this.value);
+		});
+		$('select').each( function(i, val) {
+			psiTurk.recordUnstructuredData(this.id, this.value);		
+		});
+		$('input').each( function(i, val) {
+			if (this.checked == true) {
+				psiTurk.recordUnstructuredData(this.name, this.value);		
+			}
+		});
+
+	};
+
+	prompt_resubmit = function() {
+		replaceBody(error_message);
+		$("#resubmit").click(resubmit);
+	};
+
+	resubmit = function() {
+		replaceBody("<h1>Trying to resubmit...</h1>");
+		reprompt = setTimeout(prompt_resubmit, 10000);
+		
+		psiTurk.saveData({
+			success: function() {
+			    clearInterval(reprompt); 
+                 
+			}, 
+			error: prompt_resubmit
+		});
+	};
+
+	// Load the questionnaire snippet 
+	psiTurk.showPage('carefulcheck.html');
+	psiTurk.recordTrialData({'phase':'carefulcheck', 'status':'begin'});
+	
+	$("#next").click(function () {
+	     record_responses();
+	    currentview = new ManipulationCheck();
+	});
+};
 
 /**************
  * Manipulation Check *

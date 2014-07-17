@@ -7,21 +7,50 @@
 		
 		<div id="scale">
 		<form id="postquiz" action="debrief" method="post">
-			<div class="row question" style="text-align:center;display:inline;" >
-			
-					<input type="radio" name="attitude" value="0" id="0">&nbsp;0&nbsp;&nbsp;&nbsp;&nbsp;
-					<input type="radio" name="attitude" value="1" id="1">&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;
-					<input type="radio" name="attitude" value="2" id="2">&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;
-					<input type="radio" name="attitude" value="3" id="3">&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;
-					<input type="radio" name="attitude" value="4" id="4" checked="checked">&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;
-					<input type="radio" name="attitude" value="5" id="5">&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;
-					<input type="radio" name="attitude" value="6" id="6">&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;
-					<input type="radio" name="attitude" value="7" id="7">&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;
-					<input type="radio" name="attitude" value="8" id="8">&nbsp;8
-
-		</div>
+			<div class="row question radrow" >
+				<div class="rad">
+					<label>coldest</label>
+					<input type="radio" name="attitude" value="0" id="0">
+					<label>0</label>
+				</div>
+				<div class="rad">
+					<input type="radio" name="attitude" value="1" id="1">
+					<label>1</label>
+				</div>
+				<div class="rad">
+					<input type="radio" name="attitude" value="2" id="2">
+					<label>2</label>
+				</div>
+				<div class="rad">
+					<input type="radio" name="attitude" value="3" id="3">
+					<label>3</label>
+				</div>
+				<div class="rad">
+					<label>neutral</label>
+					<input type="radio" name="attitude" value="4" id="4" checked="checked">
+					<label>4</label>
+				</div>
+				<div class="rad">
+					<input type="radio" name="attitude" value="5" id="5">
+					<label>5</label>
+				</div>
+				<div class="rad">
+					<input type="radio" name="attitude" value="6" id="6">
+					<label>6</label>
+				</div>
+				<div class="rad">
+					<input type="radio" name="attitude" value="7" id="7">
+					<label>7</label>
+				</div>
+				<div class="rad">
+					<label>warmest</label>
+					<input type="radio" name="attitude" value="8" id="8">
+					<label>8</label>
+				</div>
+				
+			</div>
 		</form>
-		<button type="button" id="next" value="next" class="btn btn-primary btn-lg continue">
+		<button style="float:right;margin-right: 20px;" type="button" id="next" value="next" class="btn btn-primary btn-lg continue">
                     Next <span class="glyphicon glyphicon-arrow-right"></span>
                 </button>
 		</div>
