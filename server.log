@@ -2408,3 +2408,132 @@ TemplateNotFound: stage2.html
 2014-07-17 20:33:17,684 /Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/psiturk/psiturk_js/psiturk.js
 2014-07-17 20:33:17,699 /Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/psiturk/psiturk_js/psiturk.js
 2014-07-17 20:33:17,741 /Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/psiturk/psiturk_js/psiturk.js
+2014-07-17 22:38:01,004 Exception on /ad [GET]
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/flask/app.py", line 1817, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/flask/app.py", line 1477, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/flask/app.py", line 1381, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/flask/app.py", line 1475, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/flask/app.py", line 1461, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/PsiTurk-2.0.1-py2.7.egg/psiturk/user_utils.py", line 11, in new_func
+    resp = make_response(f(*args, **kwargs))
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/PsiTurk-2.0.1-py2.7.egg/psiturk/experiment.py", line 233, in advertisement
+    filter(Participant.workerid == workerId).\
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2593, in count
+    return self.from_self(col).scalar()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2392, in scalar
+    ret = self.one()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2361, in one
+    ret = list(self)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2404, in __iter__
+    return self._execute_and_instances(context)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2419, in _execute_and_instances
+    result = conn.execute(querycontext.statement, self._params)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 720, in execute
+    return meth(self, multiparams, params)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/sql/elements.py", line 317, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 817, in _execute_clauseelement
+    compiled_sql, distilled_params
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 947, in _execute_context
+    context)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1108, in _handle_dbapi_exception
+    exc_info
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/util/compat.py", line 185, in raise_from_cause
+    reraise(type(exception), exception, tb=exc_tb)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 940, in _execute_context
+    context)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/engine/default.py", line 435, in do_execute
+    cursor.execute(statement, parameters)
+OperationalError: (OperationalError) no such table: turkdemo u'SELECT count(*) AS count_1 \nFROM (SELECT turkdemo.uniqueid AS turkdemo_uniqueid, turkdemo.assignmentid AS turkdemo_assignmentid, turkdemo.workerid AS turkdemo_workerid, turkdemo.hitid AS turkdemo_hitid, turkdemo.ipaddress AS turkdemo_ipaddress, turkdemo.browser AS turkdemo_browser, turkdemo.platform AS turkdemo_platform, turkdemo.language AS turkdemo_language, turkdemo.cond AS turkdemo_cond, turkdemo.counterbalance AS turkdemo_counterbalance, turkdemo.codeversion AS turkdemo_codeversion, turkdemo.beginhit AS turkdemo_beginhit, turkdemo.beginexp AS turkdemo_beginexp, turkdemo.endhit AS turkdemo_endhit, turkdemo.bonus AS turkdemo_bonus, turkdemo.status AS turkdemo_status, turkdemo.datastring AS turkdemo_datastring \nFROM turkdemo \nWHERE turkdemo.assignmentid != ? AND turkdemo.workerid = ?) AS anon_1' (u'debugHNU339', u'debugXHDSNM')
+2014-07-17 22:38:18,832 Exception on /ad [GET]
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/flask/app.py", line 1817, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/flask/app.py", line 1477, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/flask/app.py", line 1381, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/flask/app.py", line 1475, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/flask/app.py", line 1461, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/PsiTurk-2.0.1-py2.7.egg/psiturk/user_utils.py", line 11, in new_func
+    resp = make_response(f(*args, **kwargs))
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/PsiTurk-2.0.1-py2.7.egg/psiturk/experiment.py", line 233, in advertisement
+    filter(Participant.workerid == workerId).\
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2593, in count
+    return self.from_self(col).scalar()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2392, in scalar
+    ret = self.one()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2361, in one
+    ret = list(self)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2404, in __iter__
+    return self._execute_and_instances(context)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2419, in _execute_and_instances
+    result = conn.execute(querycontext.statement, self._params)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 720, in execute
+    return meth(self, multiparams, params)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/sql/elements.py", line 317, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 817, in _execute_clauseelement
+    compiled_sql, distilled_params
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 947, in _execute_context
+    context)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1108, in _handle_dbapi_exception
+    exc_info
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/util/compat.py", line 185, in raise_from_cause
+    reraise(type(exception), exception, tb=exc_tb)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 940, in _execute_context
+    context)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/engine/default.py", line 435, in do_execute
+    cursor.execute(statement, parameters)
+OperationalError: (OperationalError) no such table: turkdemo u'SELECT count(*) AS count_1 \nFROM (SELECT turkdemo.uniqueid AS turkdemo_uniqueid, turkdemo.assignmentid AS turkdemo_assignmentid, turkdemo.workerid AS turkdemo_workerid, turkdemo.hitid AS turkdemo_hitid, turkdemo.ipaddress AS turkdemo_ipaddress, turkdemo.browser AS turkdemo_browser, turkdemo.platform AS turkdemo_platform, turkdemo.language AS turkdemo_language, turkdemo.cond AS turkdemo_cond, turkdemo.counterbalance AS turkdemo_counterbalance, turkdemo.codeversion AS turkdemo_codeversion, turkdemo.beginhit AS turkdemo_beginhit, turkdemo.beginexp AS turkdemo_beginexp, turkdemo.endhit AS turkdemo_endhit, turkdemo.bonus AS turkdemo_bonus, turkdemo.status AS turkdemo_status, turkdemo.datastring AS turkdemo_datastring \nFROM turkdemo \nWHERE turkdemo.assignmentid != ? AND turkdemo.workerid = ?) AS anon_1' (u'debugZOSN4K', u'debug4CE0DA')
+2014-07-17 22:48:20,401 Exception on /ad [GET]
+Traceback (most recent call last):
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/flask/app.py", line 1817, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/flask/app.py", line 1477, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/flask/app.py", line 1381, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/flask/app.py", line 1475, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/flask/app.py", line 1461, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/PsiTurk-2.0.1-py2.7.egg/psiturk/user_utils.py", line 11, in new_func
+    resp = make_response(f(*args, **kwargs))
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/PsiTurk-2.0.1-py2.7.egg/psiturk/experiment.py", line 233, in advertisement
+    filter(Participant.workerid == workerId).\
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2593, in count
+    return self.from_self(col).scalar()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2392, in scalar
+    ret = self.one()
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2361, in one
+    ret = list(self)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2404, in __iter__
+    return self._execute_and_instances(context)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/orm/query.py", line 2419, in _execute_and_instances
+    result = conn.execute(querycontext.statement, self._params)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 720, in execute
+    return meth(self, multiparams, params)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/sql/elements.py", line 317, in _execute_on_connection
+    return connection._execute_clauseelement(self, multiparams, params)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 817, in _execute_clauseelement
+    compiled_sql, distilled_params
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 947, in _execute_context
+    context)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 1108, in _handle_dbapi_exception
+    exc_info
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/util/compat.py", line 185, in raise_from_cause
+    reraise(type(exception), exception, tb=exc_tb)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/engine/base.py", line 940, in _execute_context
+    context)
+  File "/Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/sqlalchemy/engine/default.py", line 435, in do_execute
+    cursor.execute(statement, parameters)
+OperationalError: (OperationalError) no such table: turkdemo u'SELECT count(*) AS count_1 \nFROM (SELECT turkdemo.uniqueid AS turkdemo_uniqueid, turkdemo.assignmentid AS turkdemo_assignmentid, turkdemo.workerid AS turkdemo_workerid, turkdemo.hitid AS turkdemo_hitid, turkdemo.ipaddress AS turkdemo_ipaddress, turkdemo.browser AS turkdemo_browser, turkdemo.platform AS turkdemo_platform, turkdemo.language AS turkdemo_language, turkdemo.cond AS turkdemo_cond, turkdemo.counterbalance AS turkdemo_counterbalance, turkdemo.codeversion AS turkdemo_codeversion, turkdemo.beginhit AS turkdemo_beginhit, turkdemo.beginexp AS turkdemo_beginexp, turkdemo.endhit AS turkdemo_endhit, turkdemo.bonus AS turkdemo_bonus, turkdemo.status AS turkdemo_status, turkdemo.datastring AS turkdemo_datastring \nFROM turkdemo \nWHERE turkdemo.assignmentid != ? AND turkdemo.workerid = ?) AS anon_1' (u'debugLATO4U', u'debug9U02W3')
