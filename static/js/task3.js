@@ -358,14 +358,88 @@ var SurveillanceTask = function(mycondition) {
 				wordon = new Date().getTime();
 				hasTarget = $(trial_label).hasClass("target");
 				response = hasTarget ? "M" : "CR" ;
-				//alert(response);
 				listening = true;
+				
+				if ($(trial_label + " span:first-child").hasClass("center")) {
+					flashTrialSingle(trial_label);
+				}else{
+					flashTrialPair(trial_label);	
+				}
+				
 				k++;
 			}
 		
 		}, TIME_INT);	
 	};
 	
+	};
+	
+	
+	var flashTrialSingle = function(trial_label){
+		var k = 0;
+		var flashing = setInterval(function(){
+		if (k == 3) {
+			clearInterval(flashing);
+		}
+		$(trial_label).css('visibility', 'visible');
+		$(trial_label)
+			.delay(75)
+			.queue( function(next){ 
+			  $(this).css('visibility','hidden'); 
+			  next(); 
+			})
+			.delay(25)
+			.queue( function(next){
+				$(this).css('visibility','visible');
+				next();
+			});
+		k++;
+						
+		}, 400);	
+	};
+	
+	var flashTrialPair = function(trial_label){
+		var left = $(trial_label+" span:first-child");
+		var right = $(trial_label+" span:last-child");
+		var k = 0;
+		var m = 0;
+		var hide1 = Math.random() < .5 ? left : right;
+		var hide2 = hide1 == left ? right : left;
+		
+		var flashing = setInterval(function(){
+		
+		$(hide1).css('visibility', 'visible');
+		$(hide1)
+			.delay(75)
+			.queue( function(next){ 
+			  $(this).css('visibility','hidden'); 
+			  next(); 
+			})
+			.delay(25)
+			.queue( function(next){
+				$(this).css('visibility','visible');
+				next();
+			});
+		
+		$(hide2).css('visibility', 'visible');
+		$(hide2)
+			.delay(375)
+			.queue( function(next){ 
+			  $(this).css('visibility','hidden'); 
+			  next(); 
+			})
+			.delay(25)
+			.queue( function(next){
+				$(this).css('visibility','visible');
+				next();
+			});
+		
+		if (k == 3) {
+			clearInterval(flashing);
+		}
+		k++;
+
+		}, 400);
 	};
 
 	var response_handler = function(e) {
