@@ -1,9 +1,9 @@
 WINDOW_WIDTH = 1000;
 WINDOW_HEIGHT = 700;
 MAX_FONT_SIZE = 60;
-MIN_FONT_SIZE = 20;
+MIN_FONT_SIZE = 30;
 PERCENT_BLANK = 0.25;
-TIME_INT = 1200;
+TIME_INT = 1500;
 PROXIMITY = "   "; // pixels? spaces?
 TARGET = "looking"; // size? in pair? by itself?
 US_POS_LIST = ["useful",

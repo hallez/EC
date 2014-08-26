@@ -7,7 +7,7 @@
 // Initalize psiturk object
 var psiTurk = PsiTurk(uniqueId, adServerLoc);
 
-var mycondition = Math.random() > .5 ? 1 : 2;  // these two variables are passed by the psiturk server process
+var mycondition = 1;  // these two variables are passed by the psiturk server process
 var mycounterbalance = counterbalance;  // they tell you which condition you have been assigned to
 // they are not used in the stroop code but may be useful to you
 
@@ -40,6 +40,8 @@ var instructionPages = [ // add as a list as many pages as you like
 ];
 
 
+
+
 /********************
 * HTML manipulation
 *
@@ -54,6 +56,17 @@ var instructionPages = [ // add as a list as many pages as you like
 * EC TEST       *
 ********************/
 var SurveillanceTask = function(mycondition) {
+	
+	/*var isOpera = !!window.opera || navigator.userAgent.indexOf(' OPR/') >= 0;
+	    // Opera 8.0+ (UA detection to detect Blink/v8-powered Opera)
+	var isFirefox = typeof InstallTrigger !== 'undefined';   // Firefox 1.0+
+	var isSafari = Object.prototype.toString.call(window.HTMLElement).indexOf('Constructor') > 0;
+	// At least Safari 3+: "[object HTMLElementConstructor]"
+	var isChrome = !!window.chrome && !isOpera;              // Chrome 1+
+	var isIE = /*@cc_on!@*/false || !!document.documentMode; // At least IE6 */
+	
+	//alert("isFirefox = "+isFirefox);
+	
 	
 	psiTurk.finishInstructions();
 	var d = new Date();
@@ -119,9 +132,17 @@ var SurveillanceTask = function(mycondition) {
 			}else if (leftword_is_img) {
 				leftword_img = "<img src=\'../static/images/"+leftword+"\'>";
 				leftspan.html(leftword_img);
-				rightspan.text(rightword).css("fontSize", randomSize());
+				var rightsize = randomSize();
+				if (rightword.length >= 10 && rightsize >= 50) {
+						rightsize = rightsize - 10;
+					}
+				rightspan.text(rightword).css("fontSize", rightsize);
 			}else if (rightword_is_img) {
-				leftspan.text(leftword).css("fontSize", randomSize());
+				var leftsize = randomSize();
+				if (leftword.length >= 10 && leftsize >= 50) {
+						leftsize = leftsize - 10;
+					}
+				leftspan.text(leftword).css("fontSize", leftsize);
 				rightword_img = "<img src=\'../static/images/"+rightword+"\'>";
 				rightspan.html(rightword_img);
 			}else{
@@ -132,6 +153,12 @@ var SurveillanceTask = function(mycondition) {
 					var sizepair = randomSizePair();
 					var leftsize = leftcat == "US" ? sizepair.smallSize : sizepair.largeSize;
 					var rightsize = rightcat == "CS" ? sizepair.largeSize : sizepair.smallSize;
+					if (leftword.length >= 10 && leftsize >= 50) {
+						leftsize = leftsize - 10;
+					}
+					if (rightword.length >= 10 && rightsize >= 50) {
+						rightsize = rightsize - 10;
+					}
 					leftspan.text(leftword).css("fontSize", leftsize);
 					rightspan.text(rightword).css("fontSize", rightsize);
 				}
@@ -161,6 +188,8 @@ var SurveillanceTask = function(mycondition) {
 		
 		CSPos = cond == 1 ? "walking" : "hearing";
 		CSNeut = cond == 1 ? "hearing" : "walking";
+		
+		//alert("mycondition="+cond+", CSPos="+CSPos+", CSNeut="+CSNeut);
 		
 		if (block == 0) {
 			us_pos_list = US_POS_LIST.slice(0);
@@ -388,14 +417,14 @@ var SurveillanceTask = function(mycondition) {
 			  $(this).css('visibility','hidden'); 
 			  next(); 
 			})
-			.delay(25)
+			.delay(40)
 			.queue( function(next){
 				$(this).css('visibility','visible');
 				next();
 			});
 		k++;
 						
-		}, 400);	
+		}, 500);	
 	};
 	
 	var flashTrialPair = function(trial_label){
@@ -415,7 +444,7 @@ var SurveillanceTask = function(mycondition) {
 			  $(this).css('visibility','hidden'); 
 			  next(); 
 			})
-			.delay(25)
+			.delay(40)
 			.queue( function(next){
 				$(this).css('visibility','visible');
 				next();
@@ -428,7 +457,7 @@ var SurveillanceTask = function(mycondition) {
 			  $(this).css('visibility','hidden'); 
 			  next(); 
 			})
-			.delay(25)
+			.delay(40)
 			.queue( function(next){
 				$(this).css('visibility','visible');
 				next();
@@ -439,7 +468,7 @@ var SurveillanceTask = function(mycondition) {
 		}
 		k++;
 
-		}, 400);
+		}, 500);
 	};
 
 	var response_handler = function(e) {
@@ -477,7 +506,8 @@ var SurveillanceTask = function(mycondition) {
 	    $("body").unbind("keydown", response_handler); // Unbind keys
 	    $("#wrapper").empty();
 	    var csPos = mycondition == 1 ? "walking" : "hearing";
-	    var csNeut = mycondition == 1 ? "hearing" : "walking";
+	    var csNeut = mycondition == 1 ? "hearing" : "walking";   
+	   
 	    currentview = new AttitudeMeasure(csPos, csNeut);
 	};
 	
@@ -504,7 +534,7 @@ var SurveillanceTask = function(mycondition) {
 
 var AttitudeMeasure = function(csPos, csNeut) {
 	
-
+	var noneChecked = true;
 	// Stimuli for a basic Stroop experiment
 	var stims = [
 			[csPos, "CSpos"],
@@ -524,6 +554,11 @@ var AttitudeMeasure = function(csPos, csNeut) {
 		else {
 			stim = stims.shift();
 			show_word( stim[0] );
+			$(".neutral").prop("checked", true);
+			$(".neutral").prop("checked", false);
+			noneChecked = true;
+
+			
 		}
 	};
 	
@@ -549,11 +584,10 @@ var AttitudeMeasure = function(csPos, csNeut) {
 	};
 	
 	var record_responses = function() {
-
 		$('input').each( function(i, val) {
 			if (this.checked == true) {
 				psiTurk.recordUnstructuredData(stim[1], stim[0], this.name, this.value);		
-
+				noneChecked = false;
 			}
 		});
 
@@ -568,9 +602,12 @@ var AttitudeMeasure = function(csPos, csNeut) {
 	
 	$("#next").click(function () {
 	    record_responses();
+	    if (noneChecked) {
+		alert("Please answer this question before advancing");
+	    }else{
 	    remove_word();
 	    next();
-	    
+	    }
 	});
 	
 };
