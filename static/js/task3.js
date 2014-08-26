@@ -617,7 +617,7 @@ var AttitudeMeasure = function(csPos, csNeut) {
  * ************/
 var CarefulReadingCheck = function() {
 		var error_message = "<h1>Oops!</h1><p>Something went wrong submitting your HIT. This might happen if you lose your internet connection. Press the button to resubmit.</p><button id='resubmit'>Resubmit</button>";
-
+		var notComplete = true;
 	
 	var record_responses = function() {
 
@@ -625,13 +625,16 @@ var CarefulReadingCheck = function() {
 
 		$('textarea').each( function(i, val) {
 			psiTurk.recordUnstructuredData(this.id, this.value);
+			notComplete = false;
 		});
 		$('select').each( function(i, val) {
-			psiTurk.recordUnstructuredData(this.id, this.value);		
+			psiTurk.recordUnstructuredData(this.id, this.value);
 		});
 		$('input').each( function(i, val) {
 			if (this.checked == true) {
-				psiTurk.recordUnstructuredData(this.name, this.value);		
+				psiTurk.recordUnstructuredData(this.name, this.value);
+			notComplete = false;
+
 			}
 		});
 
@@ -661,6 +664,9 @@ var CarefulReadingCheck = function() {
 	
 	$("#next").click(function () {
 	     record_responses();
+	     if (notComplete) {
+		alert("Please answer this question before advancing");
+	     }
 	    currentview = new ManipulationCheck();
 	});
 };
