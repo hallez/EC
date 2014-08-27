@@ -677,7 +677,8 @@ var CarefulReadingCheck = function() {
 
 var ManipulationCheck = function(){
 	var error_message = "<h1>Oops!</h1><p>Something went wrong submitting your HIT. This might happen if you lose your internet connection. Press the button to resubmit.</p><button id='resubmit'>Resubmit</button>";
-
+	var notComplete = true;
+	
 	var record_responses = function() {
 
 		psiTurk.recordTrialData({'phase':'manipulation', 'status':'submit'});
@@ -686,7 +687,10 @@ var ManipulationCheck = function(){
 			psiTurk.recordUnstructuredData(this.id, this.value);
 		});
 		$('select').each( function(i, val) {
-			psiTurk.recordUnstructuredData(this.id, this.value);		
+			if (this.value != "blank") {
+				psiTurk.recordUnstructuredData(this.id, this.value);
+				notComplete = false;
+			}
 		});
 
 	};
@@ -715,7 +719,11 @@ var ManipulationCheck = function(){
 	
 	$("#next").click(function () {
 	    record_responses();
-	    currentview = new ContingencyMemory();
+	    if (notComplete) {
+		alert("Please answer this question before advancing");
+	     }else{
+		currentview = new ContingencyMemory();
+	     }
 	});
 };
 
@@ -726,7 +734,8 @@ var ManipulationCheck = function(){
 var ContingencyMemory = function() {
 	var error_message = "<h1>Oops!</h1><p>Something went wrong submitting your HIT. This might happen if you lose your internet connection. Press the button to resubmit.</p><button id='resubmit'>Resubmit</button>";
 
-	
+	var notComplete1 = true;
+	var notComplete2 = true;
 	var record_responses = function() {
 
 		psiTurk.recordTrialData({'phase':'contingency', 'status':'submit'});
@@ -736,11 +745,17 @@ var ContingencyMemory = function() {
 		});
 		$('select').each( function(i, val) {
 			if (this.id == 'contingency_positive') {
-				var score = mycondition == 1 ? this.value : (parseInt(this.value) * -1) + "";
-				psiTurk.recordUnstructuredData(this.id, score);
+				if (this.value != "blank") {
+					var score = mycondition == 1 ? this.value : (parseInt(this.value) * -1) + "";
+					psiTurk.recordUnstructuredData(this.id, score);
+					notComplete1 = false;
+				}
 			} else if (this.id == 'contingency_neutral') {
-				var score = mycondition == 2 ? this.value : (parseInt(this.value) * -1) + "";
-				psiTurk.recordUnstructuredData(this.id, score);	
+				if (this.value != "blank") {
+					var score = mycondition == 2 ? this.value : (parseInt(this.value) * -1) + "";
+					psiTurk.recordUnstructuredData(this.id, score);
+					notComplete2 = false;
+				}
 			}	
 		});
 
@@ -770,7 +785,11 @@ var ContingencyMemory = function() {
 	
 	$("#next").click(function () {
 	     record_responses();
+	     if (notComplete1 || notComplete2) {
+		alert("Please answer this question before advancing");
+	     }else{
 	    currentview = new PerceivedUse();
+	     }
 	});
 };
 
@@ -780,7 +799,7 @@ var ContingencyMemory = function() {
 
 var PerceivedUse = function() {
 		var error_message = "<h1>Oops!</h1><p>Something went wrong submitting your HIT. This might happen if you lose your internet connection. Press the button to resubmit.</p><button id='resubmit'>Resubmit</button>";
-
+		var notComplete = true;
 	
 	var record_responses = function() {
 
@@ -790,7 +809,10 @@ var PerceivedUse = function() {
 			psiTurk.recordUnstructuredData(this.id, this.value);
 		});
 		$('select').each( function(i, val) {
-			psiTurk.recordUnstructuredData(this.id, this.value);		
+			if (this.value != "blank") {
+				psiTurk.recordUnstructuredData(this.id, this.value);
+				notComplete = false;
+			}
 		});
 
 	};
@@ -819,7 +841,11 @@ var PerceivedUse = function() {
 	
 	$("#next").click(function () {
 	     record_responses();
-	    currentview = new PerceivedCompliance();
+	     if (notComplete) {
+		alert("Please answer this question before advancing");
+	     }else{
+		currentview = new PerceivedCompliance();
+	     }
 	});
 };
 
@@ -829,7 +855,7 @@ var PerceivedUse = function() {
 
 var PerceivedCompliance = function() {
 		var error_message = "<h1>Oops!</h1><p>Something went wrong submitting your HIT. This might happen if you lose your internet connection. Press the button to resubmit.</p><button id='resubmit'>Resubmit</button>";
-
+		var notComplete = true;
 	
 	var record_responses = function() {
 
@@ -839,7 +865,10 @@ var PerceivedCompliance = function() {
 			psiTurk.recordUnstructuredData(this.id, this.value);
 		});
 		$('select').each( function(i, val) {
-			psiTurk.recordUnstructuredData(this.id, this.value);		
+			if (this.value != "blank") {
+				psiTurk.recordUnstructuredData(this.id, this.value);
+				notComplete = false;
+			}
 		});
 
 	};
@@ -868,7 +897,11 @@ var PerceivedCompliance = function() {
 	
 	$("#next").click(function () {
 	     record_responses();
+	     if (notComplete) {
+		alert("Please answer this question before advancing");
+	     }else{
 	    currentview = new Questionnaire1();
+	     }
 	});
 };
 
@@ -878,7 +911,7 @@ var PerceivedCompliance = function() {
 
 var Questionnaire1 = function() {
 		var error_message = "<h1>Oops!</h1><p>Something went wrong submitting your HIT. This might happen if you lose your internet connection. Press the button to resubmit.</p><button id='resubmit'>Resubmit</button>";
-
+	var radioNotComplete = true;
 	
 	var record_responses = function() {
 
@@ -892,7 +925,8 @@ var Questionnaire1 = function() {
 		});
 		$('input').each( function(i, val) {
 			if (this.checked == true) {
-				psiTurk.recordUnstructuredData(this.name, this.value);		
+				psiTurk.recordUnstructuredData(this.name, this.value);
+				radioNotComplete = false;
 			}
 		});
 
@@ -922,7 +956,11 @@ var Questionnaire1 = function() {
 	
 	$("#next").click(function () {
 	     record_responses();
-	    currentview = new Questionnaire2();
+	     if (radioNotComplete) {
+		alert("Please answer this question before advancing");
+	     }else{
+		currentview = new Questionnaire2();
+	     }
 	});
 };
 
@@ -933,20 +971,28 @@ var Questionnaire1 = function() {
 var Questionnaire2 = function() {
 		var error_message = "<h1>Oops!</h1><p>Something went wrong submitting your HIT. This might happen if you lose your internet connection. Press the button to resubmit.</p><button id='resubmit'>Resubmit</button>";
 
+	var selectNotComplete = true;
+	var textNotComplete = true;
 	
 	var record_responses = function() {
 
 		psiTurk.recordTrialData({'phase':'postquestionnaire2', 'status':'submit'});
 
 		$('textarea').each( function(i, val) {
-			psiTurk.recordUnstructuredData(this.id, this.value);
+			if (this.value != "") {
+				psiTurk.recordUnstructuredData(this.id, this.value);
+				textNotComplete = false;
+			}
 		});
 		$('select').each( function(i, val) {
-			psiTurk.recordUnstructuredData(this.id, this.value);		
+			if (this.value != "blank") {
+				psiTurk.recordUnstructuredData(this.id, this.value);
+				selectNotComplete = false;
+			}
 		});
 		$('input').each( function(i, val) {
 			if (this.checked == true) {
-				psiTurk.recordUnstructuredData(this.name, this.value);		
+				psiTurk.recordUnstructuredData(this.name, this.value);
 			}
 		});
 
@@ -976,7 +1022,11 @@ var Questionnaire2 = function() {
 	
 	$("#next").click(function () {
 	     record_responses();
-	    currentview = new Questionnaire3();
+	    if (selectNotComplete || textNotComplete) {
+		alert("Please answer this question before advancing");
+	     }else{
+		currentview = new Questionnaire3();
+	     }
 	});
 };
 
@@ -987,21 +1037,16 @@ var Questionnaire2 = function() {
 
 var Questionnaire3 = function() {
 		var error_message = "<h1>Oops!</h1><p>Something went wrong submitting your HIT. This might happen if you lose your internet connection. Press the button to resubmit.</p><button id='resubmit'>Resubmit</button>";
-
+	var textNotComplete = true;
 	
 	var record_responses = function() {
 
 		psiTurk.recordTrialData({'phase':'postquestionnaire3', 'status':'submit'});
 
 		$('textarea').each( function(i, val) {
-			psiTurk.recordUnstructuredData(this.id, this.value);
-		});
-		$('select').each( function(i, val) {
-			psiTurk.recordUnstructuredData(this.id, this.value);		
-		});
-		$('input').each( function(i, val) {
-			if (this.checked == true) {
-				psiTurk.recordUnstructuredData(this.name, this.value);		
+			if (this.value != "") {
+				psiTurk.recordUnstructuredData(this.id, this.value);
+				textNotComplete = false;
 			}
 		});
 
@@ -1031,7 +1076,11 @@ var Questionnaire3 = function() {
 	
 	$("#next").click(function () {
 	     record_responses();
-	    currentview = new Questionnaire4();
+	     if (textNotComplete) {
+		alert("Please answer this question before advancing");
+	     }else{
+		currentview = new Questionnaire4();
+	     }
 	});
 };
 
@@ -1042,20 +1091,27 @@ var Questionnaire3 = function() {
 var Questionnaire4 = function() {
 
 	var error_message = "<h1>Oops!</h1><p>Something went wrong submitting your HIT. This might happen if you lose your internet connection. Press the button to resubmit.</p><button id='resubmit'>Resubmit</button>";
-
+	
+	var radioNotComplete = true;
+	var textNotComplete = true;
+	
 	var record_responses = function() {
 
-		psiTurk.recordTrialData({'phase':'postquestionnaire4', 'status':'submit'});
+		psiTurk.recordTrialData({'phase':'postquestionnaire2', 'status':'submit'});
 
 		$('textarea').each( function(i, val) {
-			psiTurk.recordUnstructuredData(this.id, this.value);
+			if (this.value != "") {
+				psiTurk.recordUnstructuredData(this.id, this.value);
+				textNotComplete = false;
+			}
 		});
 		$('select').each( function(i, val) {
 			psiTurk.recordUnstructuredData(this.id, this.value);		
 		});
 		$('input').each( function(i, val) {
 			if (this.checked == true) {
-				psiTurk.recordUnstructuredData(this.name, this.value);		
+				psiTurk.recordUnstructuredData(this.name, this.value);
+				radioNotComplete = false;
 			}
 		});
 
@@ -1085,6 +1141,9 @@ var Questionnaire4 = function() {
 	
 	$("#next").click(function () {
 	    record_responses();
+	    if (radioNotComplete || textNotComplete) {
+		alert("Please answer this question before advancing");
+	     }else{
 	    psiTurk.saveData({
             success: function(){
 		psiTurk.completeHIT();
@@ -1093,7 +1152,9 @@ var Questionnaire4 = function() {
                 //}); 
             }, 
             error: prompt_resubmit});
+	     }
 	});
+
     
 	
 };

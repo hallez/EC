@@ -3073,3 +3073,49 @@ Exception SystemExit: 0 in <module 'threading' from '/Library/Frameworks/Python.
 2014-08-26 12:58:30,056 /Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/psiturk/psiturk_js/psiturk.js
 2014-08-26 12:58:30,072 /Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/psiturk/psiturk_js/psiturk.js
 2014-08-26 12:58:30,074 /Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/psiturk/psiturk_js/psiturk.js
+2014-08-26 16:14:48 [2114] [CRITICAL] WORKER TIMEOUT (pid:2118)
+2014-08-26 16:14:48 [2114] [CRITICAL] WORKER TIMEOUT (pid:2119)
+2014-08-26 16:14:48 [2114] [CRITICAL] WORKER TIMEOUT (pid:2122)
+2014-08-26 16:14:48 [2114] [CRITICAL] WORKER TIMEOUT (pid:2123)
+2014-08-26 16:14:48 [2114] [CRITICAL] WORKER TIMEOUT (pid:2124)
+2014-08-26 16:14:48 [2114] [CRITICAL] WORKER TIMEOUT (pid:2125)
+2014-08-26 16:14:48 [2114] [CRITICAL] WORKER TIMEOUT (pid:2126)
+2014-08-26 16:14:48 [2114] [CRITICAL] WORKER TIMEOUT (pid:2127)
+2014-08-26 16:14:48 [2114] [CRITICAL] WORKER TIMEOUT (pid:2128)
+2014-08-26 16:14:48 [2114] [CRITICAL] WORKER TIMEOUT (pid:2118)
+2014-08-26 16:14:48 [2114] [CRITICAL] WORKER TIMEOUT (pid:2119)
+2014-08-26 16:14:48 [2114] [CRITICAL] WORKER TIMEOUT (pid:2122)
+2014-08-26 16:14:48 [2114] [CRITICAL] WORKER TIMEOUT (pid:2123)
+2014-08-26 16:14:48 [2114] [CRITICAL] WORKER TIMEOUT (pid:2124)
+2014-08-26 16:14:48 [2114] [CRITICAL] WORKER TIMEOUT (pid:2125)
+2014-08-26 16:14:48 [2114] [CRITICAL] WORKER TIMEOUT (pid:2126)
+2014-08-26 16:14:48 [2114] [CRITICAL] WORKER TIMEOUT (pid:2127)
+2014-08-26 16:14:48 [2114] [CRITICAL] WORKER TIMEOUT (pid:2128)
+2014-08-26 16:14:48 [2114] [CRITICAL] WORKER TIMEOUT (pid:2128)
+2014-08-26 22:31:40 [2114] [CRITICAL] WORKER TIMEOUT (pid:4898)
+2014-08-26 22:31:40 [2114] [CRITICAL] WORKER TIMEOUT (pid:4899)
+2014-08-26 22:31:40 [2114] [CRITICAL] WORKER TIMEOUT (pid:4900)
+2014-08-26 22:31:40 [2114] [CRITICAL] WORKER TIMEOUT (pid:4901)
+2014-08-26 22:31:40 [2114] [CRITICAL] WORKER TIMEOUT (pid:4902)
+2014-08-26 22:31:40 [2114] [CRITICAL] WORKER TIMEOUT (pid:4903)
+2014-08-26 22:31:40 [2114] [CRITICAL] WORKER TIMEOUT (pid:4904)
+2014-08-26 22:31:40 [2114] [CRITICAL] WORKER TIMEOUT (pid:4905)
+2014-08-26 22:31:40 [2114] [CRITICAL] WORKER TIMEOUT (pid:4895)
+2014-08-26 22:31:40 [2114] [CRITICAL] WORKER TIMEOUT (pid:4898)
+2014-08-26 22:31:40 [2114] [CRITICAL] WORKER TIMEOUT (pid:4899)
+2014-08-26 22:31:40 [2114] [CRITICAL] WORKER TIMEOUT (pid:4900)
+2014-08-26 22:31:40 [2114] [CRITICAL] WORKER TIMEOUT (pid:4901)
+2014-08-26 22:31:40 [2114] [CRITICAL] WORKER TIMEOUT (pid:4902)
+2014-08-26 22:31:40 [2114] [CRITICAL] WORKER TIMEOUT (pid:4903)
+2014-08-26 22:31:40 [2114] [CRITICAL] WORKER TIMEOUT (pid:4904)
+2014-08-26 22:31:40 [2114] [CRITICAL] WORKER TIMEOUT (pid:4905)
+2014-08-26 22:31:40 [2114] [CRITICAL] WORKER TIMEOUT (pid:4895)
+2014-08-26 22:31:42,845 /Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/psiturk/psiturk_js/psiturk.js
+2014-08-26 22:31:42,887 /Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/psiturk/psiturk_js/psiturk.js
+2014-08-26 22:31:42,922 /Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/psiturk/psiturk_js/psiturk.js
+2014-08-26 22:31:43,049 /Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/psiturk/psiturk_js/psiturk.js
+2014-08-26 22:31:43,059 /Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/psiturk/psiturk_js/psiturk.js
+2014-08-26 22:31:43,066 /Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/psiturk/psiturk_js/psiturk.js
+2014-08-26 22:31:43,092 /Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/psiturk/psiturk_js/psiturk.js
+2014-08-26 22:31:43,143 /Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/psiturk/psiturk_js/psiturk.js
+2014-08-26 22:31:43,152 /Library/Frameworks/Python.framework/Versions/2.7/lib/python2.7/site-packages/psiturk/psiturk_js/psiturk.js
