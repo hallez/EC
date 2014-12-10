@@ -7,6 +7,10 @@
 // Initalize psiturk object
 var psiTurk = PsiTurk(uniqueId, adServerLoc);
 
+// Math.random is a built in function. 
+// We think this allows random selection of a number between 0 and 1
+// When this value is greater than 0.5, assign subject to condition 1. Else, assign to condition 2
+// The ? operand defines the conditional expression (ternary operation)
 var mycondition = Math.random() > .5 ? 1 : 2;  // these two variables are passed by the psiturk server process
 var mycounterbalance = counterbalance;  // they tell you which condition you have been assigned to
 // they are not used in the stroop code but may be useful to you
@@ -30,7 +34,7 @@ var pages = [
 	"postquestionnaire4.html"
 ];
 
-psiTurk.preloadPages(pages);
+psiTurk.preloadPages(pages); //QUESTION - Does the order of preloaded pages correspond to the order of pages in the experiment?
 
 var instructionPages = [ // add as a list as many pages as you like
 	"instructions/instruct-1.html",
@@ -53,25 +57,26 @@ var instructionPages = [ // add as a list as many pages as you like
 /********************
 * EC TEST       *
 ********************/
+// This creates a function variable (SurveillanceTask) that takes the argument mycondition
 var SurveillanceTask = function(mycondition) {
 	
-	psiTurk.finishInstructions();
-	var d = new Date();
-	var startDate = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate() + "-" + d.getHours() + "-" + d.getMinutes() + "-" + d.getSeconds();
+	psiTurk.finishInstructions(); // Notify server that participant has finished instructions
+	var d = new Date(); // Getting date of experiment
+	var startDate = d.getFullYear() + "-" + d.getMonth() + "-" + d.getDate() + "-" + d.getHours() + "-" + d.getMinutes() + "-" + d.getSeconds(); // Getting time/date of experiment
     
-	psiTurk.recordUnstructuredData({'ID': uniqueId, 'condition':mycondition, 'date':startDate});
+	psiTurk.recordUnstructuredData({'ID': uniqueId, 'condition':mycondition, 'date':startDate}); // write participant info. to database, check to make sure it's unique
 	
-	var wordon, // time word is presented
-	    listening = false;
-	var successArr = [];
+	var wordon, // time word is presented, possibly zero
+	    listening = false; // listening for a response
+	var successArr = []; // vector that will contain accuracy
 	
 	var loadTrial = function(index, blocktype, word1, cat1, word2, cat2, isTargetBool){
 		var wrapper_label = blocktype+"_"+index;
-		var stimbox = $("<div></div>").addClass("stimBox "+wrapper_label);
+		var stimbox = $("<div></div>").addClass("stimBox "+wrapper_label); //Set variable stimbox to select all <div><div> and apply and add classname stimBox+blocktype+index to this div. Essentially, apply formatting for different trial types in different blocks.
 		if (isTargetBool) {
 			stimbox.addClass("target");
 		}
-		$("#wrapper").append(stimbox);
+		$("#wrapper").append(stimbox); //Can potentially not use lines 75-79 because all stimuli will be presented in same way (centrally)
 		var boxwidth = 0;
 		var boxheight = 0;
 		if (word1 == null && word2 == null) {
